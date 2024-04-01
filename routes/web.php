@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function(){
+    return \Inertia\Inertia::render('Auth/Login');
+})->middleware('guest');
+
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])
+    ->middleware('permission:dashboard.index')->name('dashboard.index');
+    Route::resource('/users', App\Http\Controllers\Admin\UserController::class)
+    ->middleware('permission:setting.users.index|setting.users.create|setting.users.edit|setting.users.delete');
 });
