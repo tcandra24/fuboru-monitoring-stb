@@ -28,14 +28,14 @@
     <link href="{{ asset('/admin/vendor/simple-datatables/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/admin/css/style.css') }}" rel="stylesheet" />
 
-    <script src="{{ asset('/admin/vendor/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/chart.js/chart.umd.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/echarts/echarts.min.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/quill/quill.min.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/simple-datatables/simple-datatables.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/tinymce/tinymce.min.js') }}"></script>
-    <script src="{{ asset('/admin/vendor/php-email-form/validate.js') }}"></script>
+    <script src="{{ asset('/admin/vendor/apexcharts/apexcharts.min.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/chart.js/chart.umd.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/echarts/echarts.min.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/quill/quill.min.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/simple-datatables/simple-datatables.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/tinymce/tinymce.min.js') }}" defer></script>
+    <script src="{{ asset('/admin/vendor/php-email-form/validate.js') }}" defer></script>
     <script src="{{ asset('/admin/js/main.js') }}" defer></script>
     <script src="{{ mix('/js/app.js') }}" defer></script>
 </head>

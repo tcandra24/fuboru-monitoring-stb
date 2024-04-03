@@ -17,9 +17,11 @@ class CreateDetailStbTable extends Migration
             $table->unsignedBigInteger('nomer_kontrak');
             $table->integer('tahun');
             $table->integer('bulan');
-            $table->decimal('omset');
-            $table->decimal('total');
-            $table->integer('persentase');
+            $table->decimal('omset', 12, 2);
+            $table->decimal('total', 12, 2);
+            $table->float('persentase');
+
+            $table->foreign('nomer_kontrak')->references('nomer_kontrak')->on('master_stb')->onDelete('cascade');
         });
     }
 

@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/branches', [\App\Http\Controllers\Api\BranchController::class, 'store']);
+Route::post('/customers', [\App\Http\Controllers\Api\CustomerController::class, 'store']);
+Route::post('/divisions', [\App\Http\Controllers\Api\DivisionController::class, 'store']);
+Route::post('/salesmans', [\App\Http\Controllers\Api\SalesmanController::class, 'store']);
+
+Route::post('/stb/sync', [\App\Http\Controllers\Api\StbController::class, 'sync']);

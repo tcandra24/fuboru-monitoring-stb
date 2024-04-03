@@ -7,10 +7,10 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import Swal from "sweetalert2";
 
 const props = defineProps({
-    users: Object,
+    roles: Object,
 });
 
-const { links, from, to, total, current_page, per_page } = props.users;
+const { links, from, to, total, current_page, per_page } = props.roles;
 
 const pagination_links = ref({
     links: links,
@@ -22,7 +22,7 @@ const pagination_links = ref({
 const destroy = (id, nama) => {
     Swal.fire({
         title: "Apa anda yakin?",
-        text: `Data pengguna "${nama}" akan dihapus`,
+        text: `Data role "${nama}" akan dihapus`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -30,11 +30,11 @@ const destroy = (id, nama) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            Inertia.delete(`/users/${id}`);
+            Inertia.delete(`/roles/${id}`);
 
             Swal.fire({
                 title: "Terhapus!",
-                text: "Pengguna berhasil dihapus.",
+                text: "Role berhasil dihapus.",
                 icon: "success",
                 timer: 2000,
                 showConfirmButton: false,
@@ -46,18 +46,18 @@ const destroy = (id, nama) => {
 
 <template>
     <Head>
-        <title>Pengguna - Monitoring STB</title>
+        <title>Role - Monitoring STB</title>
     </Head>
 
     <LayoutApp>
         <div class="pagetitle">
-            <h1>Pengguna</h1>
+            <h1>Role</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
-                    <li class="breadcrumb-item active">Pengguna</li>
+                    <li class="breadcrumb-item active">Role</li>
                 </ol>
             </nav>
         </div>
@@ -66,12 +66,12 @@ const destroy = (id, nama) => {
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Daftar Pengguna</h5>
+                            <h5 class="card-title">Daftar Role</h5>
                             <Link
                                 v-if="
-                                    hasAnyPermission(['setting.users.create'])
+                                    hasAnyPermission(['setting.roles.create'])
                                 "
-                                href="/users/create"
+                                href="/roles/create"
                                 as="button"
                                 role="button"
                                 class="btn btn-outline-primary mb-2"
@@ -84,52 +84,46 @@ const destroy = (id, nama) => {
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Kode Pelanggan</th>
-                                        <th scope="col">Email</th>
                                         <th scope="col">Nama</th>
-                                        <th scope="col">Kota</th>
-                                        <th scope="col">Role</th>
+                                        <th scope="col">Ijin</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-if="users.data.length > 0">
+                                    <template v-if="roles.data.length > 0">
                                         <tr
-                                            v-for="(user, index) in props.users
+                                            v-for="(role, index) in props.roles
                                                 .data"
                                             :key="index"
                                         >
                                             <th scope="row">{{ index + 1 }}</th>
-                                            <td>
-                                                {{ user.kode_pelanggan || "-" }}
-                                            </td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.nama }}</td>
-                                            <td>
-                                                {{
-                                                    user.customer
-                                                        ? user.customer.kota
-                                                        : "-"
-                                                }}
+                                            <td class="w-25">
+                                                {{ ucwords(role.name) }}
                                             </td>
                                             <td>
-                                                <span
-                                                    v-for="(
-                                                        role, index
-                                                    ) in user.roles"
-                                                    :key="index"
-                                                    class="badge rounded-pill bg-info text-dark"
-                                                    >{{
-                                                        ucwords(role.name)
-                                                    }}</span
+                                                <div
+                                                    class="d-flex flex-row gap-1 flex-wrap w-auto"
                                                 >
+                                                    <span
+                                                        v-for="(
+                                                            permission, index
+                                                        ) in role.permissions"
+                                                        :key="index"
+                                                        class="badge rounded-pill bg-info text-dark"
+                                                        >{{
+                                                            ucwords(
+                                                                permission.name
+                                                            )
+                                                        }}</span
+                                                    >
+                                                </div>
                                             </td>
-                                            <td>
+                                            <td style="width: 10%">
                                                 <Link
-                                                    :href="`/users/${user.id}/edit`"
+                                                    :href="`/roles/${role.id}/edit`"
                                                     v-if="
                                                         hasAnyPermission([
-                                                            'setting.users.edit',
+                                                            'setting.roles.edit',
                                                         ])
                                                     "
                                                 >
@@ -141,13 +135,13 @@ const destroy = (id, nama) => {
                                                     class="btn"
                                                     @click.prevent="
                                                         destroy(
-                                                            user.id,
-                                                            user.nama
+                                                            role.id,
+                                                            role.name
                                                         )
                                                     "
                                                     v-if="
                                                         hasAnyPermission([
-                                                            'setting.users.delete',
+                                                            'setting.roles.delete',
                                                         ])
                                                     "
                                                 >
@@ -159,8 +153,8 @@ const destroy = (id, nama) => {
                                         </tr>
                                     </template>
                                     <tr v-else>
-                                        <td colspan="6" class="text-center">
-                                            Tidak ada Pengguna
+                                        <td colspan="4" class="text-center">
+                                            Tidak ada Role
                                         </td>
                                     </tr>
                                 </tbody>

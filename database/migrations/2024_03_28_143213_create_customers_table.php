@@ -13,7 +13,7 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('pelanggan', function (Blueprint $table) {
             $table->string('kode', 50)->primary();
             $table->string('nama', 100);
             $table->text('alamat');
@@ -23,8 +23,9 @@ class CreateCustomersTable extends Migration
             $table->string('kelurahan', 50);
             $table->string('telepon', 20);
             $table->string('kode_divisi', 10);
-            $table->string('nama_divisi', 50);
             $table->timestamps();
+
+            $table->foreign('kode_divisi')->references('kode')->on('divisi');
         });
     }
 
@@ -35,6 +36,6 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('pelanggan');
     }
 }

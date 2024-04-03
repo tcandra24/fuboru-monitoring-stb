@@ -4,6 +4,9 @@ import { Inertia } from "@inertiajs/inertia";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { reactive } from "vue";
 
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 
@@ -12,6 +15,8 @@ const props = defineProps({
     user: Object,
     roles: Object,
 });
+
+const toast = useToast();
 
 const form = reactive({
     nama: props.user.nama,
@@ -38,7 +43,13 @@ const submit = () => {
         },
         {
             onSuccess: () => {
-                console.log("sukses");
+                toast.open({
+                    message: "Sukses edit user",
+                    type: "success",
+                    duration: 2000,
+                    position: "bottom",
+                    dismissible: true,
+                });
             },
         }
     );
@@ -83,7 +94,14 @@ const submit = () => {
                                         v-model="form.nama"
                                         class="form-control"
                                         id="form-element-nama"
+                                        :class="{ 'is-invalid': errors.nama }"
                                     />
+                                    <div
+                                        v-if="errors.nama"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.nama }}
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <label
@@ -96,7 +114,16 @@ const submit = () => {
                                         v-model="form.kode_pelanggan"
                                         class="form-control"
                                         id="form-element-kode-pelanggan"
+                                        :class="{
+                                            'is-invalid': errors.kode_pelanggan,
+                                        }"
                                     />
+                                    <div
+                                        v-if="errors.kode_pelanggan"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.kode_pelanggan }}
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <label
@@ -109,7 +136,14 @@ const submit = () => {
                                         v-model="form.email"
                                         class="form-control"
                                         id="form-element-email"
+                                        :class="{ 'is-invalid': errors.email }"
                                     />
+                                    <div
+                                        v-if="errors.email"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.email }}
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <label
@@ -121,7 +155,14 @@ const submit = () => {
                                         v-model="form.roles"
                                         :options="all_role"
                                         mode="tags"
+                                        :class="{ 'is-invalid': errors.roles }"
                                     />
+                                    <div
+                                        v-if="errors.roles"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.roles }}
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <label
@@ -134,7 +175,16 @@ const submit = () => {
                                         v-model="form.password"
                                         class="form-control"
                                         id="form-element-password"
+                                        :class="{
+                                            'is-invalid': errors.password,
+                                        }"
                                     />
+                                    <div
+                                        v-if="errors.password"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.password }}
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <label
@@ -147,7 +197,17 @@ const submit = () => {
                                         v-model="form.password_confirmation"
                                         class="form-control"
                                         id="form-element-password-confirm"
+                                        :class="{
+                                            'is-invalid':
+                                                errors.password_confirmation,
+                                        }"
                                     />
+                                    <div
+                                        v-if="errors.password_confirmation"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.password_confirmation }}
+                                    </div>
                                 </div>
                                 <div class="d-flex gap-3">
                                     <button

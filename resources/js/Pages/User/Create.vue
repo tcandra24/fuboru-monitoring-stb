@@ -4,13 +4,19 @@ import { Inertia } from "@inertiajs/inertia";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { reactive } from "vue";
 
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 
 const props = defineProps({
     errors: Object,
     roles: Object,
+    customers: Object,
 });
+
+const toast = useToast();
 
 const form = reactive({
     nama: "",
@@ -36,7 +42,13 @@ const submit = () => {
         },
         {
             onSuccess: () => {
-                console.log("sukses");
+                toast.open({
+                    message: "Sukses simpan user",
+                    type: "success",
+                    duration: 2000,
+                    position: "bottom",
+                    dismissible: true,
+                });
             },
         }
     );
@@ -81,6 +93,7 @@ const submit = () => {
                                         v-model="form.nama"
                                         class="form-control"
                                         id="form-element-nama"
+                                        :class="{ 'is-invalid': errors.nama }"
                                     />
                                     <div
                                         v-if="errors.nama"
@@ -95,12 +108,28 @@ const submit = () => {
                                         class="form-label"
                                         >Kode Pelanggan</label
                                     >
-                                    <input
-                                        type="text"
-                                        v-model="form.kode_pelanggan"
-                                        class="form-control"
+                                    <select
+                                        class="form-select"
                                         id="form-element-kode-pelanggan"
-                                    />
+                                        aria-label="Kode Pelanggan"
+                                        v-model="form.kode_pelanggan"
+                                        :class="{
+                                            'is-invalid': errors.kode_pelanggan,
+                                        }"
+                                    >
+                                        <option selected="">
+                                            Pilih Kode Pelanggan
+                                        </option>
+                                        <option
+                                            v-for="(
+                                                customer, index
+                                            ) in props.customers"
+                                            :value="customer.kode"
+                                            :key="index"
+                                        >
+                                            {{ customer.nama }}
+                                        </option>
+                                    </select>
                                     <div
                                         v-if="errors.kode_pelanggan"
                                         class="invalid-feedback"
@@ -119,6 +148,7 @@ const submit = () => {
                                         v-model="form.email"
                                         class="form-control"
                                         id="form-element-email"
+                                        :class="{ 'is-invalid': errors.email }"
                                     />
                                     <div
                                         v-if="errors.email"
@@ -137,6 +167,7 @@ const submit = () => {
                                         v-model="form.roles"
                                         :options="all_role"
                                         mode="tags"
+                                        :class="{ 'is-invalid': errors.roles }"
                                     />
                                     <div
                                         v-if="errors.roles"
@@ -156,6 +187,9 @@ const submit = () => {
                                         v-model="form.password"
                                         class="form-control"
                                         id="form-element-password"
+                                        :class="{
+                                            'is-invalid': errors.password,
+                                        }"
                                     />
                                     <div
                                         v-if="errors.password"
@@ -175,6 +209,10 @@ const submit = () => {
                                         v-model="form.password_confirmation"
                                         class="form-control"
                                         id="form-element-password-confirm"
+                                        :class="{
+                                            'is-invalid':
+                                                errors.password_confirmation,
+                                        }"
                                     />
                                     <div
                                         v-if="errors.password_confirmation"

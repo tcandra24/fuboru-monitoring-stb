@@ -43,11 +43,9 @@ const submit = () => {
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="pt-4 pb-2">
-                        <h5 class="card-title text-center pb-0 fs-4">
-                            Login to Your Account
-                        </h5>
+                        <h5 class="card-title text-center pb-0 fs-4">Login</h5>
                         <p class="text-center small">
-                            Enter your username & password to login
+                            Masukan username dan password anda
                         </p>
                     </div>
 
@@ -121,8 +119,8 @@ const submit = () => {
             </div>
 
             <div class="credits">
-                Designed by
-                <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                Dibuat oleh
+                <a href="https://fuboru.co.id/">Fuboru Indonesia</a>
             </div>
         </div>
     </LayoutAuth>

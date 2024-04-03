@@ -13,6 +13,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
+    protected $table = 'pengguna';
     /**
      * The attributes that are mass assignable.
      *
@@ -52,5 +53,20 @@ class User extends Authenticatable
             return [$pr['name'] => true];
         });
 
+    }
+
+    public function getNamaAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setNamaAttribute($value)
+    {
+        $this->attributes['nama'] = strtolower($value);
+    }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'kode', 'kode_pelanggan');
     }
 }

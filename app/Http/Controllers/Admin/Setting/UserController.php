@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Models\User;
+use App\Models\Customer;
 
 class UserController extends Controller
 {
@@ -18,10 +19,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->paginate(10);
+        $users = User::with('roles', 'customer')->paginate(999);
 
         return Inertia::render('User/Index', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
@@ -33,8 +34,10 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+        $customers = Customer::all();
         return Inertia::render('User/Create', [
-            'roles' => $roles
+            'roles' => $roles,
+            'customers' => $customers,
         ]);
     }
 
@@ -48,8 +51,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'kode_pelanggan' => 'required|unique:users,kode_pelanggan',
-            'email' => 'required|email|unique:users,email',
+            'kode_pelanggan' => 'unique:pengguna,kode_pelanggan',
+            'email' => 'required|email|unique:pengguna,email',
             'roles' => 'required',
             'password' => 'required|min:8|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:8',
@@ -105,8 +108,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'kode_pelanggan' => 'required|unique:users,kode_pelanggan',
-            'email' => 'required|email|unique:users,email',
+            'kode_pelanggan' => 'unique:pengguna,kode_pelanggan,' . $user->id,
+            'email' => 'required|email|unique:pengguna,email,' . $user->id,
             'roles' => 'required',
             'password' => 'nullable',
         ]);
@@ -136,6 +139,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('users.index');
     }
 }
