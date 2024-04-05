@@ -29,38 +29,70 @@ import { Link } from "@inertiajs/inertia-vue3";
                     ])
                 "
             >
-                <a
-                    class="nav-link collapsed"
+                <Link
+                    class="nav-link"
                     data-bs-target="#master-nav"
                     data-bs-toggle="collapse"
                     href="#"
+                    :class="[
+                        !$page.url.startsWith('/master') ? 'collapsed' : '',
+                    ]"
                 >
-                    <i class="bi bi-journal-text"></i>
+                    <i class="bi bi-view-stacked"></i>
                     <span>Master</span>
                     <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
+                </Link>
                 <ul
                     id="master-nav"
                     class="nav-content collapse"
                     data-bs-parent="#sidebar-nav"
+                    :class="[$page.url.startsWith('/master') ? 'show' : '']"
                 >
                     <li v-if="hasAnyPermission(['master.customers.index'])">
-                        <Link href="/customers">
+                        <Link
+                            href="/master/customers"
+                            :class="[
+                                $page.url.startsWith('/master/customers')
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
                             <i class="bi bi-circle"></i><span>Pelanggan</span>
                         </Link>
                     </li>
                     <li v-if="hasAnyPermission(['master.branches.index'])">
-                        <Link href="/branches">
+                        <Link
+                            href="/master/branches"
+                            :class="[
+                                $page.url.startsWith('/master/branches')
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
                             <i class="bi bi-circle"></i><span>Cabang</span>
                         </Link>
                     </li>
                     <li v-if="hasAnyPermission(['master.divisions.index'])">
-                        <Link href="/divisions">
+                        <Link
+                            href="/master/divisions"
+                            :class="[
+                                $page.url.startsWith('/master/divisions')
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
                             <i class="bi bi-circle"></i><span>Divisi</span>
                         </Link>
                     </li>
                     <li v-if="hasAnyPermission(['master.salesmans.index'])">
-                        <Link href="/salesmans">
+                        <Link
+                            href="/master/salesmans"
+                            :class="[
+                                $page.url.startsWith('/master/salesmans')
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
                             <i class="bi bi-circle"></i><span>Salesman</span>
                         </Link>
                     </li>
@@ -68,25 +100,36 @@ import { Link } from "@inertiajs/inertia-vue3";
             </li>
 
             <li class="nav-item" v-if="hasAnyPermission(['report.stb.index'])">
-                <a
-                    class="nav-link collapsed"
+                <Link
+                    class="nav-link"
                     data-bs-target="#report-nav"
                     data-bs-toggle="collapse"
                     href="#"
+                    :class="[
+                        !$page.url.startsWith('/report') ? 'collapsed' : '',
+                    ]"
                 >
-                    <i class="bi bi-journal-text"></i>
+                    <i class="bi bi-file"></i>
                     <span>Laporan</span>
                     <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
+                </Link>
                 <ul
                     id="report-nav"
                     class="nav-content collapse"
                     data-bs-parent="#sidebar-nav"
+                    :class="[$page.url.startsWith('/report') ? 'show' : '']"
                 >
                     <li v-if="hasAnyPermission(['report.stb.index'])">
-                        <a href="#">
+                        <Link
+                            href="/report/stb"
+                            :class="[
+                                $page.url.startsWith('/report/stb')
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
                             <i class="bi bi-circle"></i><span>STB</span>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </li>
@@ -110,9 +153,11 @@ import { Link } from "@inertiajs/inertia-vue3";
             >
                 <Link
                     class="nav-link"
-                    href="/users"
+                    href="/setting/users"
                     :class="[
-                        !$page.url.startsWith('/users') ? 'collapsed' : '',
+                        !$page.url.startsWith('/setting/users')
+                            ? 'collapsed'
+                            : '',
                     ]"
                 >
                     <i class="bi bi-person"></i>
@@ -126,12 +171,14 @@ import { Link } from "@inertiajs/inertia-vue3";
             >
                 <Link
                     class="nav-link"
-                    href="/roles"
+                    href="/setting/roles"
                     :class="[
-                        !$page.url.startsWith('/roles') ? 'collapsed' : '',
+                        !$page.url.startsWith('/setting/roles')
+                            ? 'collapsed'
+                            : '',
                     ]"
                 >
-                    <i class="bi bi-question-circle"></i>
+                    <i class="bi bi-gear"></i>
                     <span>Role</span>
                 </Link>
             </li>
@@ -142,14 +189,14 @@ import { Link } from "@inertiajs/inertia-vue3";
             >
                 <Link
                     class="nav-link"
-                    href="/permissions"
+                    href="/setting/permissions"
                     :class="[
-                        !$page.url.startsWith('/permissions')
+                        !$page.url.startsWith('/setting/permissions')
                             ? 'collapsed'
                             : '',
                     ]"
                 >
-                    <i class="bi bi-envelope"></i>
+                    <i class="bi bi-door-closed"></i>
                     <span>Izin</span>
                 </Link>
             </li>

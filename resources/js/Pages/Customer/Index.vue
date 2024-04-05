@@ -35,7 +35,7 @@ const pagination_links = ref({
                 </ol>
             </nav>
         </div>
-        <section class="section">
+        <section class="section min-vh-100">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -71,7 +71,13 @@ const pagination_links = ref({
                                         >
                                             <th scope="row">{{ index + 1 }}</th>
                                             <td>{{ customer.kode }}</td>
-                                            <td>{{ customer.user.email }}</td>
+                                            <td>
+                                                {{
+                                                    customer.user
+                                                        ? customer.user.email
+                                                        : "-"
+                                                }}
+                                            </td>
                                             <td>{{ customer.nama }}</td>
                                             <td>{{ customer.alamat }}</td>
                                             <td>{{ customer.kota }}</td>

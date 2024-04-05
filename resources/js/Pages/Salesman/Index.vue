@@ -35,7 +35,7 @@ const pagination_links = ref({
                 </ol>
             </nav>
         </div>
-        <section class="section">
+        <section class="section min-vh-100">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">

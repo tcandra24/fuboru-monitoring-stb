@@ -27,7 +27,7 @@ const all_permissions = props.permissions.map((data) => data.name);
 
 const submit = () => {
     Inertia.post(
-        `/roles/${props.role.id}`,
+        `/setting/roles/${props.role.id}`,
         {
             _method: "PUT",
             name: form.name,
@@ -62,7 +62,7 @@ const submit = () => {
                         <Link href="/">Home</Link>
                     </li>
                     <li class="breadcrumb-item">
-                        <Link href="/roles">Role</Link>
+                        <Link href="/setting/roles">Role</Link>
                     </li>
                     <li class="breadcrumb-item active">Tambah</li>
                 </ol>

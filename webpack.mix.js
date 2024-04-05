@@ -1,5 +1,4 @@
 const mix = require("laravel-mix");
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -10,9 +9,11 @@ const mix = require("laravel-mix");
  | file for the application as well as bundling up all the JS files.
  |
  */
+const path = require("path");
 
 mix.js("resources/js/app.js", "public/js")
     .postCss("resources/css/app.css", "public/css", [
         //
     ])
+    .alias({ "ziggy-js": path.resolve("./vendor/tightenco/ziggy") })
     .vue({ version: 3 });

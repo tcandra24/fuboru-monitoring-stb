@@ -14,7 +14,7 @@ class CreateDetailStbTable extends Migration
     public function up()
     {
         Schema::create('detail_stb', function (Blueprint $table) {
-            $table->unsignedBigInteger('nomer_kontrak');
+            $table->string('nomer_kontrak');
             $table->integer('tahun');
             $table->integer('bulan');
             $table->decimal('omset', 12, 2);

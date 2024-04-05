@@ -22,4 +22,24 @@ class MasterStb extends Model
         'target_rp',
         'hadiah_persen',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'kode_pelanggan', 'kode');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'kode_area', 'kode');
+    }
+
+    public function salesman()
+    {
+        return $this->belongsTo(Salesman::class, 'kode_salesman', 'kode');
+    }
+
+    public function detailStb()
+    {
+        return $this->hasMany(DetailStb::class, 'nomer_kontrak', 'nomer_kontrak');
+    }
 }

@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\Branch;
 
 class UserController extends Controller
 {
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles', 'customer')->paginate(999);
+        $users = User::with('roles', 'customer', 'branch')->paginate(999);
 
         return Inertia::render('User/Index', [
             'users' => $users,
@@ -35,9 +36,11 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $customers = Customer::all();
+        $branches = Branch::all();
         return Inertia::render('User/Create', [
             'roles' => $roles,
             'customers' => $customers,
+            'branches' => $branches,
         ]);
     }
 
@@ -51,7 +54,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'kode_pelanggan' => 'unique:pengguna,kode_pelanggan',
+            'kode_pelanggan' => 'nullable|unique:pengguna,kode_pelanggan',
+            'kode_area' => 'nullable',
             'email' => 'required|email|unique:pengguna,email',
             'roles' => 'required',
             'password' => 'required|min:8|required_with:password_confirmation|same:password_confirmation',
@@ -61,6 +65,7 @@ class UserController extends Controller
         $user = User::create([
             'nama' => $request->nama,
             'kode_pelanggan' => $request->kode_pelanggan,
+            'kode_area' => $request->kode_area,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
@@ -90,10 +95,14 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('roles')->findOrFail($id);
+        $customers = Customer::all();
         $roles = Role::all();
+        $branches = Branch::all();
         return Inertia::render('User/Edit', [
             'user' => $user,
+            'customers' => $customers,
             'roles' => $roles,
+            'branches' => $branches,
         ]);
     }
 
@@ -108,7 +117,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required',
-            'kode_pelanggan' => 'unique:pengguna,kode_pelanggan,' . $user->id,
+            'kode_pelanggan' => 'nullable|unique:pengguna,kode_pelanggan,' . $user->id,
+            'kode_area' => 'nullable',
             'email' => 'required|email|unique:pengguna,email,' . $user->id,
             'roles' => 'required',
             'password' => 'nullable',
@@ -117,6 +127,7 @@ class UserController extends Controller
         $fields = [
             'nama' => $request->nama,
             'kode_pelanggan' => $request->kode_pelanggan,
+            'kode_area' => $request->kode_area,
             'email' => $request->email,
         ];
 

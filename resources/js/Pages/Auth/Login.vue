@@ -44,9 +44,7 @@ const submit = () => {
                 <div class="card-body">
                     <div class="pt-4 pb-2">
                         <h5 class="card-title text-center pb-0 fs-4">Login</h5>
-                        <p class="text-center small">
-                            Masukan username dan password anda
-                        </p>
+                        <p class="text-center small">Monitoring STB</p>
                     </div>
 
                     <form class="row g-3" @submit.prevent="submit">

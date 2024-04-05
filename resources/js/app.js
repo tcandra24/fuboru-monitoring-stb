@@ -1,16 +1,19 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 
+// import { ZiggyVue } from "ziggy-js";\
+import moment from "moment";
+import "moment/locale/id";
+
 import { InertiaProgress } from "@inertiajs/progress";
 
 createInertiaApp({
     resolve: (name) => require(`./Pages/${name}`),
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const application = createApp({ render: () => h(App, props) })
             .mixin({
                 methods: {
                     hasAnyPermission: function (permissions) {
-                        //get permissions from props
                         let allPermissions = this.$page.props.auth.permissions;
 
                         let hasPermission = false;
@@ -27,10 +30,23 @@ createInertiaApp({
                                 return letter.toUpperCase();
                             });
                     },
+                    moneyFormat(number) {
+                        let val = (number / 1).toFixed(2).replace(".", ",");
+                        return val
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    },
+                    date_format: function (value) {
+                        return moment(value).format("DD MMMM YYYY");
+                    },
                 },
             })
             .use(plugin)
+            // .use(ZiggyVue)
             .mount(el);
+
+        delete el.dataset.page;
+        return application;
     },
 });
 

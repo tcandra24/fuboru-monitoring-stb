@@ -33,4 +33,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Division::class, 'kode_divisi', 'kode');
     }
+
+    public function stb()
+    {
+        return $this->hasMany(MasterStb::class, 'kode_pelanggan', 'kode');
+    }
 }

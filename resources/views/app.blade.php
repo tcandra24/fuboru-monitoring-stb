@@ -36,6 +36,7 @@
     <script src="{{ asset('/admin/vendor/simple-datatables/simple-datatables.js') }}" defer></script>
     <script src="{{ asset('/admin/vendor/tinymce/tinymce.min.js') }}" defer></script>
     <script src="{{ asset('/admin/vendor/php-email-form/validate.js') }}" defer></script>
+    {{-- @routes --}}
     <script src="{{ asset('/admin/js/main.js') }}" defer></script>
     <script src="{{ mix('/js/app.js') }}" defer></script>
 </head>

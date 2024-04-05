@@ -97,6 +97,10 @@ class StbController extends Controller
 
             return response()->json([
                 'success'   => true,
+                'message'   => [
+                    $msgSuccess,
+                    $msgErrors
+                ]
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

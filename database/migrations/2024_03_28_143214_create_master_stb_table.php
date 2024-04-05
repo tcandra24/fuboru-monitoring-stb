@@ -14,7 +14,7 @@ class CreateMasterStbTable extends Migration
     public function up()
     {
         Schema::create('master_stb', function (Blueprint $table) {
-            $table->bigInteger('nomer_kontrak')->primary();
+            $table->string('nomer_kontrak')->primary();
             $table->string('kode_pelanggan', 50);
             $table->string('kode_area', 50);
             $table->string('kode_salesman', 50);

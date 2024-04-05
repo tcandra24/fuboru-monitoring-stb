@@ -21,4 +21,9 @@ class DetailStb extends Model
         'total',
         'persentase',
     ];
+
+    public function masterStb()
+    {
+        return $this->belongsTo(MasterStb::class, 'nomer_kontrak', 'nomer_kontrak');
+    }
 }

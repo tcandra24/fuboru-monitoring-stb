@@ -21,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'kode_pelanggan',
+        'kode_area',
         'nama',
         'email',
         'password',
@@ -52,7 +53,6 @@ class User extends Authenticatable
         return $this->getAllPermissions()->mapWithKeys(function($pr){
             return [$pr['name'] => true];
         });
-
     }
 
     public function getNamaAttribute($value)
@@ -68,5 +68,10 @@ class User extends Authenticatable
     public function customer()
     {
         return $this->hasOne(Customer::class, 'kode', 'kode_pelanggan');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'kode_area', 'kode');
     }
 }

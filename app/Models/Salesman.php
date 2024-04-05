@@ -18,4 +18,9 @@ class Salesman extends Model
         'alamat',
         'kota',
     ];
+
+    public function stb()
+    {
+        return $this->hasMany(MasterStb::class, 'kode_salesman', 'kode');
+    }
 }

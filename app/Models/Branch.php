@@ -17,4 +17,9 @@ class Branch extends Model
         'kode',
         'nama',
     ];
+
+    public function stb()
+    {
+        return $this->hasMany(MasterStb::class, 'kode_area', 'kode');
+    }
 }

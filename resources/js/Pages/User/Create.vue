@@ -14,6 +14,7 @@ const props = defineProps({
     errors: Object,
     roles: Object,
     customers: Object,
+    branches: Object,
 });
 
 const toast = useToast();
@@ -21,6 +22,7 @@ const toast = useToast();
 const form = reactive({
     nama: "",
     kode_pelanggan: "",
+    kode_area: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -31,10 +33,11 @@ const all_role = props.roles.map((data) => data.name);
 
 const submit = () => {
     Inertia.post(
-        "/users",
+        "/setting/users",
         {
             nama: form.nama,
             kode_pelanggan: form.kode_pelanggan,
+            kode_area: form.kode_area,
             email: form.email,
             password: form.password,
             password_confirmation: form.password_confirmation,
@@ -69,7 +72,7 @@ const submit = () => {
                         <Link href="/">Home</Link>
                     </li>
                     <li class="breadcrumb-item">
-                        <Link href="/users">Pengguna</Link>
+                        <Link href="/setting/users">Pengguna</Link>
                     </li>
                     <li class="breadcrumb-item active">Tambah</li>
                 </ol>
@@ -82,7 +85,7 @@ const submit = () => {
                         <div class="card-body">
                             <h5 class="card-title">Data Pengguna</h5>
                             <form class="row g-3" @submit.prevent="submit">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <label
                                         for="form-element-nama"
                                         class="form-label"
@@ -118,7 +121,7 @@ const submit = () => {
                                         }"
                                     >
                                         <option selected="">
-                                            Pilih Kode Pelanggan
+                                            Pilih Pelanggan
                                         </option>
                                         <option
                                             v-for="(
@@ -135,6 +138,39 @@ const submit = () => {
                                         class="invalid-feedback"
                                     >
                                         {{ errors.kode_pelanggan }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label
+                                        for="form-element-kode-pelanggan"
+                                        class="form-label"
+                                        >Area</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="form-element-kode-pelanggan"
+                                        aria-label="Kode Pelanggan"
+                                        v-model="form.kode_area"
+                                        :class="{
+                                            'is-invalid': errors.kode_area,
+                                        }"
+                                    >
+                                        <option selected="">Pilih Area</option>
+                                        <option
+                                            v-for="(
+                                                branch, index
+                                            ) in props.branches"
+                                            :value="branch.kode"
+                                            :key="index"
+                                        >
+                                            {{ branch.nama }}
+                                        </option>
+                                    </select>
+                                    <div
+                                        v-if="errors.kode_area"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.kode_area }}
                                     </div>
                                 </div>
                                 <div class="col-6">

@@ -14,6 +14,8 @@ const props = defineProps({
     errors: Object,
     user: Object,
     roles: Object,
+    customers: Object,
+    branches: Object,
 });
 
 const toast = useToast();
@@ -21,6 +23,7 @@ const toast = useToast();
 const form = reactive({
     nama: props.user.nama,
     kode_pelanggan: props.user.kode_pelanggan,
+    kode_area: props.user.kode_area,
     email: props.user.email,
     password: "",
     password_confirmation: "",
@@ -31,11 +34,12 @@ const all_role = props.roles.map((data) => data.name);
 
 const submit = () => {
     Inertia.post(
-        `/users/${props.user.id}`,
+        `/setting/users/${props.user.id}`,
         {
             _method: "PUT",
             nama: form.nama,
             kode_pelanggan: form.kode_pelanggan,
+            kode_area: form.kode_area,
             email: form.email,
             password: form.password,
             password_confirmation: form.password_confirmation,
@@ -70,7 +74,7 @@ const submit = () => {
                         <Link href="/">Home</Link>
                     </li>
                     <li class="breadcrumb-item">
-                        <Link href="/users">Pengguna</Link>
+                        <Link href="/setting/users">Pengguna</Link>
                     </li>
                     <li class="breadcrumb-item active">Edit</li>
                 </ol>
@@ -83,7 +87,7 @@ const submit = () => {
                         <div class="card-body">
                             <h5 class="card-title">Data Pengguna</h5>
                             <form class="row g-3" @submit.prevent="submit">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <label
                                         for="form-element-nama"
                                         class="form-label"
@@ -107,22 +111,68 @@ const submit = () => {
                                     <label
                                         for="form-element-kode-pelanggan"
                                         class="form-label"
-                                        >Kode Pelanggan</label
+                                        >Pelanggan</label
                                     >
-                                    <input
-                                        type="text"
-                                        v-model="form.kode_pelanggan"
-                                        class="form-control"
+                                    <select
+                                        class="form-select"
                                         id="form-element-kode-pelanggan"
+                                        aria-label="Kode Pelanggan"
+                                        v-model="form.kode_pelanggan"
                                         :class="{
                                             'is-invalid': errors.kode_pelanggan,
                                         }"
-                                    />
+                                    >
+                                        <option selected="">
+                                            Pilih Pelanggan
+                                        </option>
+                                        <option
+                                            v-for="(
+                                                customer, index
+                                            ) in props.customers"
+                                            :value="customer.kode"
+                                            :key="index"
+                                        >
+                                            {{ customer.nama }}
+                                        </option>
+                                    </select>
                                     <div
                                         v-if="errors.kode_pelanggan"
                                         class="invalid-feedback"
                                     >
                                         {{ errors.kode_pelanggan }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label
+                                        for="form-element-kode-pelanggan"
+                                        class="form-label"
+                                        >Area</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="form-element-kode-pelanggan"
+                                        aria-label="Kode Pelanggan"
+                                        v-model="form.kode_area"
+                                        :class="{
+                                            'is-invalid': errors.kode_area,
+                                        }"
+                                    >
+                                        <option selected="">Pilih Area</option>
+                                        <option
+                                            v-for="(
+                                                branch, index
+                                            ) in props.branches"
+                                            :value="branch.kode"
+                                            :key="index"
+                                        >
+                                            {{ branch.nama }}
+                                        </option>
+                                    </select>
+                                    <div
+                                        v-if="errors.kode_area"
+                                        class="invalid-feedback"
+                                    >
+                                        {{ errors.kode_area }}
                                     </div>
                                 </div>
                                 <div class="col-6">

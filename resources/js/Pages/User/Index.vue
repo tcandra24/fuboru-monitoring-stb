@@ -6,9 +6,14 @@ import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import Swal from "sweetalert2";
 
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 const props = defineProps({
     users: Object,
 });
+
+const toast = useToast();
 
 const { links, from, to, total, current_page, per_page } = props.users;
 
@@ -30,14 +35,14 @@ const destroy = (id, nama) => {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            Inertia.delete(`/users/${id}`);
+            Inertia.delete(`/setting/users/${id}`);
 
-            Swal.fire({
-                title: "Terhapus!",
-                text: "Pengguna berhasil dihapus.",
-                icon: "success",
-                timer: 2000,
-                showConfirmButton: false,
+            toast.open({
+                message: "Pengguna berhasil dihapus",
+                type: "success",
+                duration: 2000,
+                position: "bottom",
+                dismissible: true,
             });
         }
     });
@@ -61,7 +66,7 @@ const destroy = (id, nama) => {
                 </ol>
             </nav>
         </div>
-        <section class="section">
+        <section class="section min-vh-100">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -71,7 +76,7 @@ const destroy = (id, nama) => {
                                 v-if="
                                     hasAnyPermission(['setting.users.create'])
                                 "
-                                href="/users/create"
+                                href="/setting/users/create"
                                 as="button"
                                 role="button"
                                 class="btn btn-outline-primary mb-2"
@@ -85,6 +90,7 @@ const destroy = (id, nama) => {
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Kode Pelanggan</th>
+                                        <th scope="col">Area</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Nama</th>
                                         <th scope="col">Kota</th>
@@ -102,6 +108,13 @@ const destroy = (id, nama) => {
                                             <th scope="row">{{ index + 1 }}</th>
                                             <td>
                                                 {{ user.kode_pelanggan || "-" }}
+                                            </td>
+                                            <td>
+                                                {{
+                                                    user.branch
+                                                        ? user.branch.nama
+                                                        : "-"
+                                                }}
                                             </td>
                                             <td>{{ user.email }}</td>
                                             <td>{{ user.nama }}</td>
@@ -126,7 +139,7 @@ const destroy = (id, nama) => {
                                             </td>
                                             <td>
                                                 <Link
-                                                    :href="`/users/${user.id}/edit`"
+                                                    :href="`/setting/users/${user.id}/edit`"
                                                     v-if="
                                                         hasAnyPermission([
                                                             'setting.users.edit',
