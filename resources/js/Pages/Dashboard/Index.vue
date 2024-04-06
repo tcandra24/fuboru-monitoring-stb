@@ -126,69 +126,80 @@ const props = defineProps({
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">STB Aktif</h5>
-
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nomer Kontrak</th>
-                                        <th scope="col">Periode</th>
-                                        <th scope="col">Total Omset</th>
-                                        <th scope="col">Sisa Belum Tercapai</th>
-                                        <th scope="col">Target (Rp)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="activeStb.length > 0">
-                                        <tr
-                                            v-for="(stb, index) in activeStb"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>{{ stb.nomer_kontrak }}</td>
-                                            <td>
-                                                {{
-                                                    date_format(
-                                                        stb.periode_awal
-                                                    )
-                                                }}
-                                                -
-                                                {{
-                                                    date_format(
-                                                        stb.periode_akhir
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                Rp.
-                                                {{
-                                                    moneyFormat(
-                                                        stb.detail_stb_sum_omset
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                Rp.
-                                                {{
-                                                    moneyFormat(
-                                                        stb.target_rp -
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nomer Kontrak</th>
+                                            <th scope="col">Periode</th>
+                                            <th scope="col">Total Omset</th>
+                                            <th scope="col">
+                                                Sisa Belum Tercapai
+                                            </th>
+                                            <th scope="col">Target (Rp)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template v-if="activeStb.length > 0">
+                                            <tr
+                                                v-for="(
+                                                    stb, index
+                                                ) in activeStb"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>{{ stb.nomer_kontrak }}</td>
+                                                <td>
+                                                    {{
+                                                        date_format(
+                                                            stb.periode_awal
+                                                        )
+                                                    }}
+                                                    -
+                                                    {{
+                                                        date_format(
+                                                            stb.periode_akhir
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(
                                                             stb.detail_stb_sum_omset
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                Rp.
-                                                {{ moneyFormat(stb.target_rp) }}
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(
+                                                            stb.target_rp -
+                                                                stb.detail_stb_sum_omset
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(
+                                                            stb.target_rp
+                                                        )
+                                                    }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="6" class="text-center">
+                                                Tidak ada aktif STB
                                             </td>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="6" class="text-center">
-                                            Tidak ada aktif STB
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <div
                                 class="d-grid gap-2 mt-3 justify-content-center"

@@ -31,6 +31,7 @@ const pagination_links = ref({
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
+                    <li class="breadcrumb-item">Master</li>
                     <li class="breadcrumb-item active">Divisi</li>
                 </ol>
             </nav>
@@ -49,33 +50,40 @@ const pagination_links = ref({
                             >
                                 <i class="bi bi-arrow-repeat me-1"></i> Sync
                             </Link>
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Kode</th>
-                                        <th scope="col">Nama</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="divisions.data.length > 0">
-                                        <tr
-                                            v-for="(division, index) in props
-                                                .divisions.data"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>{{ division.kode }}</td>
-                                            <td>{{ division.nama }}</td>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Kode</th>
+                                            <th scope="col">Nama</th>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="3" class="text-center">
-                                            Tidak ada Divisi
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <template
+                                            v-if="divisions.data.length > 0"
+                                        >
+                                            <tr
+                                                v-for="(
+                                                    division, index
+                                                ) in props.divisions.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>{{ division.kode }}</td>
+                                                <td>{{ division.nama }}</td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="3" class="text-center">
+                                                Tidak ada Divisi
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>

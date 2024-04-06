@@ -84,100 +84,106 @@ const destroy = (id, nama) => {
                                 <i class="bi bi-plus-lg me-1"></i> Tambah
                             </Link>
 
-                            <!-- Table with hoverable rows -->
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Kode Pelanggan</th>
-                                        <th scope="col">Area</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Kota</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="users.data.length > 0">
-                                        <tr
-                                            v-for="(user, index) in props.users
-                                                .data"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>
-                                                {{ user.kode_pelanggan || "-" }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    user.branch
-                                                        ? user.branch.nama
-                                                        : "-"
-                                                }}
-                                            </td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.nama }}</td>
-                                            <td>
-                                                {{
-                                                    user.customer
-                                                        ? user.customer.kota
-                                                        : "-"
-                                                }}
-                                            </td>
-                                            <td>
-                                                <span
-                                                    v-for="(
-                                                        role, index
-                                                    ) in user.roles"
-                                                    :key="index"
-                                                    class="badge rounded-pill bg-info text-dark"
-                                                    >{{
-                                                        ucwords(role.name)
-                                                    }}</span
-                                                >
-                                            </td>
-                                            <td>
-                                                <Link
-                                                    :href="`/setting/users/${user.id}/edit`"
-                                                    v-if="
-                                                        hasAnyPermission([
-                                                            'setting.users.edit',
-                                                        ])
-                                                    "
-                                                >
-                                                    <i
-                                                        class="bi bi-pencil me-1"
-                                                    ></i>
-                                                </Link>
-                                                <button
-                                                    class="btn"
-                                                    @click.prevent="
-                                                        destroy(
-                                                            user.id,
-                                                            user.nama
-                                                        )
-                                                    "
-                                                    v-if="
-                                                        hasAnyPermission([
-                                                            'setting.users.delete',
-                                                        ])
-                                                    "
-                                                >
-                                                    <i
-                                                        class="bi bi-trash me-1 text-danger"
-                                                    ></i>
-                                                </button>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Kode Pelanggan</th>
+                                            <th scope="col">Area</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Kota</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template v-if="users.data.length > 0">
+                                            <tr
+                                                v-for="(user, index) in props
+                                                    .users.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>
+                                                    {{
+                                                        user.kode_pelanggan ||
+                                                        "-"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        user.branch
+                                                            ? user.branch.nama
+                                                            : "-"
+                                                    }}
+                                                </td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.nama }}</td>
+                                                <td>
+                                                    {{
+                                                        user.customer
+                                                            ? user.customer.kota
+                                                            : "-"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        v-for="(
+                                                            role, index
+                                                        ) in user.roles"
+                                                        :key="index"
+                                                        class="badge rounded-pill bg-info text-dark"
+                                                        >{{
+                                                            ucwords(role.name)
+                                                        }}</span
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <Link
+                                                        :href="`/setting/users/${user.id}/edit`"
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'setting.users.edit',
+                                                            ])
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="bi bi-pencil me-1"
+                                                        ></i>
+                                                    </Link>
+                                                    <button
+                                                        class="btn"
+                                                        @click.prevent="
+                                                            destroy(
+                                                                user.id,
+                                                                user.nama
+                                                            )
+                                                        "
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'setting.users.delete',
+                                                            ])
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="bi bi-trash me-1 text-danger"
+                                                        ></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="6" class="text-center">
+                                                Tidak ada Pengguna
                                             </td>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="6" class="text-center">
-                                            Tidak ada Pengguna
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>

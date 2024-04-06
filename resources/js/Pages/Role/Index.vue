@@ -84,86 +84,90 @@ const destroy = (id, nama) => {
                                 <i class="bi bi-plus-lg me-1"></i> Tambah
                             </Link>
 
-                            <!-- Table with hoverable rows -->
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Ijin</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="roles.data.length > 0">
-                                        <tr
-                                            v-for="(role, index) in props.roles
-                                                .data"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td class="w-25">
-                                                {{ ucwords(role.name) }}
-                                            </td>
-                                            <td>
-                                                <div
-                                                    class="d-flex flex-row gap-1 flex-wrap w-auto"
-                                                >
-                                                    <span
-                                                        v-for="(
-                                                            permission, index
-                                                        ) in role.permissions"
-                                                        :key="index"
-                                                        class="badge rounded-pill bg-info text-dark"
-                                                        >{{
-                                                            ucwords(
-                                                                permission.name
-                                                            )
-                                                        }}</span
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Ijin</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template v-if="roles.data.length > 0">
+                                            <tr
+                                                v-for="(role, index) in props
+                                                    .roles.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td class="w-25">
+                                                    {{ ucwords(role.name) }}
+                                                </td>
+                                                <td>
+                                                    <div
+                                                        class="d-flex flex-row gap-1 flex-wrap w-auto"
                                                     >
-                                                </div>
-                                            </td>
-                                            <td style="width: 10%">
-                                                <Link
-                                                    :href="`/setting/roles/${role.id}/edit`"
-                                                    v-if="
-                                                        hasAnyPermission([
-                                                            'setting.roles.edit',
-                                                        ])
-                                                    "
-                                                >
-                                                    <i
-                                                        class="bi bi-pencil me-1"
-                                                    ></i>
-                                                </Link>
-                                                <button
-                                                    class="btn"
-                                                    @click.prevent="
-                                                        destroy(
-                                                            role.id,
-                                                            role.name
-                                                        )
-                                                    "
-                                                    v-if="
-                                                        hasAnyPermission([
-                                                            'setting.roles.delete',
-                                                        ])
-                                                    "
-                                                >
-                                                    <i
-                                                        class="bi bi-trash me-1 text-danger"
-                                                    ></i>
-                                                </button>
+                                                        <span
+                                                            v-for="(
+                                                                permission,
+                                                                index
+                                                            ) in role.permissions"
+                                                            :key="index"
+                                                            class="badge rounded-pill bg-info text-dark"
+                                                            >{{
+                                                                ucwords(
+                                                                    permission.name
+                                                                )
+                                                            }}</span
+                                                        >
+                                                    </div>
+                                                </td>
+                                                <td style="width: 10%">
+                                                    <Link
+                                                        :href="`/setting/roles/${role.id}/edit`"
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'setting.roles.edit',
+                                                            ])
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="bi bi-pencil me-1"
+                                                        ></i>
+                                                    </Link>
+                                                    <button
+                                                        class="btn"
+                                                        @click.prevent="
+                                                            destroy(
+                                                                role.id,
+                                                                role.name
+                                                            )
+                                                        "
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'setting.roles.delete',
+                                                            ])
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="bi bi-trash me-1 text-danger"
+                                                        ></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="4" class="text-center">
+                                                Tidak ada Role
                                             </td>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="4" class="text-center">
-                                            Tidak ada Role
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>

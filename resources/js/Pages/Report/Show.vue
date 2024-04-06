@@ -22,8 +22,9 @@ const props = defineProps({
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
+                    <li class="breadcrumb-item">Report</li>
                     <li class="breadcrumb-item">
-                        <Link href="/report/stb"> Report STB </Link>
+                        <Link href="/report/stb"> STB </Link>
                     </li>
                     <li class="breadcrumb-item active">
                         {{ props.masterStb.nomer_kontrak }}
@@ -31,7 +32,7 @@ const props = defineProps({
                 </ol>
             </nav>
         </div>
-        <section class="section">
+        <section class="section min-vh-100">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -151,58 +152,64 @@ const props = defineProps({
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Bulan</th>
-                                        <th scope="col">Tahun</th>
-                                        <th scope="col">Omset</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Persentase (%)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="detailStb.length > 0">
-                                        <tr
-                                            v-for="(
-                                                stb, index
-                                            ) in props.detailStb"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>{{ stb.bulan }}</td>
-                                            <td>{{ stb.tahun }}</td>
-                                            <td>
-                                                Rp. {{ moneyFormat(stb.omset) }}
-                                            </td>
-                                            <td>
-                                                Rp. {{ moneyFormat(stb.total) }}
-                                            </td>
-                                            <td>{{ stb.persentase }}</td>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Bulan</th>
+                                            <th scope="col">Tahun</th>
+                                            <th scope="col">Omset</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Persentase (%)</th>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="6" class="text-center">
-                                            Tidak ada Detail STB
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3">Total Omset</th>
-                                        <td colspan="3">
-                                            Rp.
-                                            {{
-                                                moneyFormat(
-                                                    props.masterStb
-                                                        .detail_stb_sum_omset
-                                                )
-                                            }}
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <template v-if="detailStb.length > 0">
+                                            <tr
+                                                v-for="(
+                                                    stb, index
+                                                ) in props.detailStb"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>{{ stb.bulan }}</td>
+                                                <td>{{ stb.tahun }}</td>
+                                                <td>
+                                                    Rp.
+                                                    {{ moneyFormat(stb.omset) }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{ moneyFormat(stb.total) }}
+                                                </td>
+                                                <td>{{ stb.persentase }}</td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="6" class="text-center">
+                                                Tidak ada Detail STB
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="3">Total Omset</th>
+                                            <td colspan="3">
+                                                Rp.
+                                                {{
+                                                    moneyFormat(
+                                                        props.masterStb
+                                                            .detail_stb_sum_omset
+                                                    )
+                                                }}
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>

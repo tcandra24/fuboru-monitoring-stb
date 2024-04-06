@@ -31,6 +31,7 @@ const pagination_links = ref({
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
+                    <li class="breadcrumb-item">Master</li>
                     <li class="breadcrumb-item active">Salesman</li>
                 </ol>
             </nav>
@@ -49,37 +50,44 @@ const pagination_links = ref({
                             >
                                 <i class="bi bi-arrow-repeat me-1"></i> Sync
                             </Link>
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Kode</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Alamat</th>
-                                        <th scope="col">Kota</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="salesmans.data.length > 0">
-                                        <tr
-                                            v-for="(salesman, index) in props
-                                                .salesmans.data"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>{{ salesman.kode }}</td>
-                                            <td>{{ salesman.nama }}</td>
-                                            <td>{{ salesman.alamat }}</td>
-                                            <td>{{ salesman.kota }}</td>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Kode</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Kota</th>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="5" class="text-center">
-                                            Tidak ada Salesman
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <template
+                                            v-if="salesmans.data.length > 0"
+                                        >
+                                            <tr
+                                                v-for="(
+                                                    salesman, index
+                                                ) in props.salesmans.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>{{ salesman.kode }}</td>
+                                                <td>{{ salesman.nama }}</td>
+                                                <td>{{ salesman.alamat }}</td>
+                                                <td>{{ salesman.kota }}</td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="5" class="text-center">
+                                                Tidak ada Salesman
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>

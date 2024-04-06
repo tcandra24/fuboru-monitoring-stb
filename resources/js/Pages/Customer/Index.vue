@@ -31,6 +31,7 @@ const pagination_links = ref({
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
+                    <li class="breadcrumb-item">Master</li>
                     <li class="breadcrumb-item active">Pelanggan</li>
                 </ol>
             </nav>
@@ -49,53 +50,61 @@ const pagination_links = ref({
                             >
                                 <i class="bi bi-arrow-repeat me-1"></i> Sync
                             </Link>
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Kode</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Alamat</th>
-                                        <th scope="col">Kota</th>
-                                        <th scope="col">Telepon</th>
-                                        <th scope="col">Nama Divisi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="customers.data.length > 0">
-                                        <tr
-                                            v-for="(customer, index) in props
-                                                .customers.data"
-                                            :key="index"
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Kode</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Kota</th>
+                                            <th scope="col">Telepon</th>
+                                            <th scope="col">Nama Divisi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template
+                                            v-if="customers.data.length > 0"
                                         >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>{{ customer.kode }}</td>
-                                            <td>
-                                                {{
-                                                    customer.user
-                                                        ? customer.user.email
-                                                        : "-"
-                                                }}
-                                            </td>
-                                            <td>{{ customer.nama }}</td>
-                                            <td>{{ customer.alamat }}</td>
-                                            <td>{{ customer.kota }}</td>
-                                            <td>{{ customer.telepon }}</td>
-                                            <td>
-                                                {{ customer.division.nama }}
+                                            <tr
+                                                v-for="(
+                                                    customer, index
+                                                ) in props.customers.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>{{ customer.kode }}</td>
+                                                <td>
+                                                    {{
+                                                        customer.user
+                                                            ? customer.user
+                                                                  .email
+                                                            : "-"
+                                                    }}
+                                                </td>
+                                                <td>{{ customer.nama }}</td>
+                                                <td>{{ customer.alamat }}</td>
+                                                <td>{{ customer.kota }}</td>
+                                                <td>{{ customer.telepon }}</td>
+                                                <td>
+                                                    {{ customer.division.nama }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="8" class="text-center">
+                                                Tidak ada Pelanggan
                                             </td>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="8" class="text-center">
-                                            Tidak ada Pelanggan
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- End Table with hoverable rows -->
-                            <!-- <Pagination :pagination_links="pagination_links" /> -->
+                                    </tbody>
+                                </table>
+                                <!-- End Table with hoverable rows -->
+                                <!-- <Pagination :pagination_links="pagination_links" /> -->
+                            </div>
                         </div>
                     </div>
                 </div>

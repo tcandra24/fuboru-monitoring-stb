@@ -10,6 +10,7 @@ class DetailStb extends Model
     use HasFactory;
 
     protected $table = 'detail_stb';
+    protected $primaryKey = 'nomer_kontrak';
 
     public $timestamps = false;
 

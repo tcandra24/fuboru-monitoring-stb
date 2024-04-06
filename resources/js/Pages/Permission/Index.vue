@@ -31,36 +31,42 @@ const props = defineProps({
                         <div class="card-body">
                             <h5 class="card-title">Daftar Permission</h5>
 
-                            <!-- Table with hoverable rows -->
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Guard</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template
-                                        v-if="permissions.data.length > 0"
-                                    >
-                                        <tr
-                                            v-for="(permission, index) in props
-                                                .permissions.data"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>{{ permission.name }}</td>
-                                            <td>{{ permission.guard_name }}</td>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Guard</th>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="3" class="text-center">
-                                            Tidak ada Permission
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <template
+                                            v-if="permissions.data.length > 0"
+                                        >
+                                            <tr
+                                                v-for="(
+                                                    permission, index
+                                                ) in props.permissions.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>{{ permission.name }}</td>
+                                                <td>
+                                                    {{ permission.guard_name }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="3" class="text-center">
+                                                Tidak ada Permission
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>

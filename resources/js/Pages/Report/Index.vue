@@ -31,7 +31,8 @@ const pagination_links = ref({
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
-                    <li class="breadcrumb-item active">Report STB</li>
+                    <li class="breadcrumb-item">Report</li>
+                    <li class="breadcrumb-item active">STB</li>
                 </ol>
             </nav>
         </div>
@@ -41,81 +42,93 @@ const pagination_links = ref({
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Daftar Report STB</h5>
-                            <table class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nomer Kontrak</th>
-                                        <th scope="col">Salesman</th>
-                                        <th scope="col">Periode Awal</th>
-                                        <th scope="col">Periode Akhir</th>
-                                        <th scope="col">Total Omset</th>
-                                        <th scope="col">Sisa Belum Tercapai</th>
-                                        <th scope="col">Target (Rp)</th>
-                                        <th scope="col">Hadiah (%)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template v-if="masterStb.data.length > 0">
-                                        <tr
-                                            v-for="(stb, index) in props
-                                                .masterStb.data"
-                                            :key="index"
-                                        >
-                                            <th scope="row">{{ index + 1 }}</th>
-                                            <td>
-                                                <Link
-                                                    :href="`/report/stb/${stb.nomer_kontrak}`"
-                                                >
-                                                    {{ stb.nomer_kontrak }}
-                                                </Link>
-                                            </td>
-                                            <td>{{ stb.salesman.nama }}</td>
-                                            <td>
-                                                {{
-                                                    date_format(
-                                                        stb.periode_awal
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    date_format(
-                                                        stb.periode_akhir
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                Rp.
-                                                {{
-                                                    moneyFormat(
-                                                        stb.detail_stb_sum_omset
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                Rp.
-                                                {{
-                                                    moneyFormat(
-                                                        stb.target_rp -
-                                                            stb.detail_stb_sum_omset
-                                                    )
-                                                }}
-                                            </td>
-                                            <td>
-                                                Rp.
-                                                {{ moneyFormat(stb.target_rp) }}
-                                            </td>
-                                            <td>{{ stb.hadiah_persen }}</td>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nomer Kontrak</th>
+                                            <th scope="col">Salesman</th>
+                                            <th scope="col">Periode Awal</th>
+                                            <th scope="col">Periode Akhir</th>
+                                            <th scope="col">Total Omset</th>
+                                            <th scope="col">
+                                                Sisa Belum Tercapai
+                                            </th>
+                                            <th scope="col">Target (Rp)</th>
+                                            <th scope="col">Hadiah (%)</th>
                                         </tr>
-                                    </template>
-                                    <tr v-else>
-                                        <td colspan="9" class="text-center">
-                                            Tidak ada STB
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <template
+                                            v-if="masterStb.data.length > 0"
+                                        >
+                                            <tr
+                                                v-for="(stb, index) in props
+                                                    .masterStb.data"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>
+                                                    <Link
+                                                        :href="`/report/stb/${stb.nomer_kontrak}`"
+                                                    >
+                                                        {{ stb.nomer_kontrak }}
+                                                    </Link>
+                                                </td>
+                                                <td>{{ stb.salesman.nama }}</td>
+                                                <td>
+                                                    {{
+                                                        date_format(
+                                                            stb.periode_awal
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        date_format(
+                                                            stb.periode_akhir
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(
+                                                            stb.detail_stb_sum_omset
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(
+                                                            stb.target_rp -
+                                                                stb.detail_stb_sum_omset
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(
+                                                            stb.target_rp
+                                                        )
+                                                    }}
+                                                </td>
+                                                <td>{{ stb.hadiah_persen }}</td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="9" class="text-center">
+                                                Tidak ada STB
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <!-- End Table with hoverable rows -->
                             <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>
