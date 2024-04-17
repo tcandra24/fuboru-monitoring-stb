@@ -7,21 +7,21 @@ const props = defineProps({
 </script>
 
 <template>
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page Pagination">
         <ul class="pagination justify-content-end">
             <li
                 v-for="(link, index) of pagination_links.links"
                 class="page-item"
                 :class="[link.active ? 'active' : '']"
+                :key="index"
             >
                 <Link
-                    v-if="index === 0"
                     :href="link.url === null ? '#' : link.url"
                     class="page-link"
+                    v-html="link.label"
                 >
-                    Previous
                 </Link>
-                <Link
+                <!-- <Link
                     v-else-if="index === pagination_links.links.length - 1"
                     :href="link.url === null ? '#' : link.url"
                     class="page-link"
@@ -29,7 +29,7 @@ const props = defineProps({
                     Next
                 </Link v-else class="page-link" :href="link.url === null ? '#' : link.url" v-html="link.label">
                 <Link>
-                </Link>
+                </Link> -->
             </li>
         </ul>
     </nav>

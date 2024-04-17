@@ -1,9 +1,21 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
+import Pagination from "../../Components/Pagination.vue";
+import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     permissions: Object,
+});
+
+const { links, from, to, total, last_page } = props.permissions;
+
+const pagination_links = ref({
+    links: links,
+    from: from,
+    to: to,
+    total: total,
+    paging: props.permissions,
 });
 </script>
 
@@ -51,7 +63,7 @@ const props = defineProps({
                                                 :key="index"
                                             >
                                                 <th scope="row">
-                                                    {{ index + 1 }}
+                                                    {{ from++ }}
                                                 </th>
                                                 <td>{{ permission.name }}</td>
                                                 <td>
@@ -68,7 +80,10 @@ const props = defineProps({
                                 </table>
                             </div>
                             <!-- End Table with hoverable rows -->
-                            <!-- <Pagination :pagination_links="pagination_links" /> -->
+                            <Pagination
+                                v-if="last_page > 1"
+                                :pagination_links="pagination_links"
+                            />
                         </div>
                     </div>
                 </div>

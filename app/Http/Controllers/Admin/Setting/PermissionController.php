@@ -12,7 +12,7 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        $permissions = Permission::paginate(999);
+        $permissions = Permission::paginate(10);
         return Inertia::render('Permission/Index', [
             'permissions' => $permissions
         ]);

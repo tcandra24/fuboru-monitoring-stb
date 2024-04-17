@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
-// import Pagination from "../../Components/Pagination.vue";
+import Pagination from "../../Components/Pagination.vue";
 import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -15,7 +15,7 @@ const props = defineProps({
 
 const toast = useToast();
 
-const { links, from, to, total, current_page, per_page } = props.roles;
+const { links, from, to, total, last_page } = props.roles;
 
 const pagination_links = ref({
     links: links,
@@ -32,7 +32,7 @@ const destroy = (id, nama) => {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Yes",
     }).then((result) => {
         if (result.isConfirmed) {
             Inertia.delete(`/setting/roles/${id}`);
@@ -102,7 +102,7 @@ const destroy = (id, nama) => {
                                                 :key="index"
                                             >
                                                 <th scope="row">
-                                                    {{ index + 1 }}
+                                                    {{ from++ }}
                                                 </th>
                                                 <td class="w-25">
                                                     {{ ucwords(role.name) }}
@@ -169,7 +169,10 @@ const destroy = (id, nama) => {
                                 </table>
                             </div>
                             <!-- End Table with hoverable rows -->
-                            <!-- <Pagination :pagination_links="pagination_links" /> -->
+                            <Pagination
+                                v-if="last_page > 1"
+                                :pagination_links="pagination_links"
+                            />
                         </div>
                     </div>
                 </div>

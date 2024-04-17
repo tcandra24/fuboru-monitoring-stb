@@ -1,14 +1,16 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
-// import Pagination from "../../Components/Pagination.vue";
+import Pagination from "../../Components/Pagination.vue";
+import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     salesmans: Object,
 });
 
-const { links, from, to, total, current_page, per_page } = props.salesmans;
+const { links, from, to, total, last_page } = props.salesmans;
 
 const pagination_links = ref({
     links: links,
@@ -16,6 +18,36 @@ const pagination_links = ref({
     to: to,
     total: total,
 });
+
+const sync = () => {
+    Swal.fire({
+        title: "Apa anda Sync Salesman?",
+        text: `Data salesman akan di update`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Inertia.patch(
+                "/master/sync/salesmans",
+                {},
+                {
+                    onSuccess: () => {
+                        toast.open({
+                            message: "Sukses sync salesman",
+                            type: "success",
+                            duration: 2000,
+                            position: "bottom",
+                            dismissible: true,
+                        });
+                    },
+                }
+            );
+        }
+    });
+};
 </script>
 
 <template>
@@ -42,14 +74,28 @@ const pagination_links = ref({
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Daftar Salesman</h5>
-                            <Link
-                                href="#"
-                                as="button"
-                                role="button"
-                                class="btn btn-outline-success mb-2"
-                            >
-                                <i class="bi bi-arrow-repeat me-1"></i> Sync
-                            </Link>
+                            <div class="d-flex gap-3">
+                                <Link
+                                    v-if="
+                                        hasAnyPermission([
+                                            'master.salesmans.create',
+                                        ])
+                                    "
+                                    href="/master/salesmans/create"
+                                    as="button"
+                                    role="button"
+                                    class="btn btn-outline-primary mb-2"
+                                >
+                                    <i class="bi bi-plus-lg me-1"></i> Tambah
+                                </Link>
+                                <button
+                                    role="button"
+                                    class="btn btn-outline-success mb-2"
+                                    @click="sync"
+                                >
+                                    <i class="bi bi-arrow-repeat me-1"></i> Sync
+                                </button>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <thead>
@@ -59,6 +105,7 @@ const pagination_links = ref({
                                             <th scope="col">Nama</th>
                                             <th scope="col">Alamat</th>
                                             <th scope="col">Kota</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -72,16 +119,33 @@ const pagination_links = ref({
                                                 :key="index"
                                             >
                                                 <th scope="row">
-                                                    {{ index + 1 }}
+                                                    {{ from++ }}
                                                 </th>
                                                 <td>{{ salesman.kode }}</td>
                                                 <td>{{ salesman.nama }}</td>
                                                 <td>{{ salesman.alamat }}</td>
                                                 <td>{{ salesman.kota }}</td>
+                                                <td :style="{ width: '10%' }">
+                                                    <Link
+                                                        :href="`/master/salesmans/${salesman.kode.replaceAll(
+                                                            '/',
+                                                            '-'
+                                                        )}/edit`"
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'master.salesmans.edit',
+                                                            ])
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="bi bi-pencil me-1"
+                                                        ></i>
+                                                    </Link>
+                                                </td>
                                             </tr>
                                         </template>
                                         <tr v-else>
-                                            <td colspan="5" class="text-center">
+                                            <td colspan="6" class="text-center">
                                                 Tidak ada Salesman
                                             </td>
                                         </tr>
@@ -89,7 +153,10 @@ const pagination_links = ref({
                                 </table>
                             </div>
                             <!-- End Table with hoverable rows -->
-                            <!-- <Pagination :pagination_links="pagination_links" /> -->
+                            <Pagination
+                                v-if="last_page > 1"
+                                :pagination_links="pagination_links"
+                            />
                         </div>
                     </div>
                 </div>

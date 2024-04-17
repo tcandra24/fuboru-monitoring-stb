@@ -23,9 +23,11 @@ class CreateCustomersTable extends Migration
             $table->string('kelurahan', 50);
             $table->string('telepon', 20);
             $table->string('kode_divisi', 10);
+            $table->string('kode_area', 50);
             $table->timestamps();
 
             $table->foreign('kode_divisi')->references('kode')->on('divisi');
+            $table->foreign('kode_area')->references('kode')->on('cabang');
         });
     }
 

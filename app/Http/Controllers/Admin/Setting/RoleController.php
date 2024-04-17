@@ -13,7 +13,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::with('permissions')->paginate(999);
+        $roles = Role::with('permissions')->paginate(10);
 
         return Inertia::render('Role/Index', [
             'roles' => $roles
@@ -40,7 +40,7 @@ class RoleController extends Controller
 
         $role->givePermissionTo($request->permissions);
 
-        return redirect()->route('roles.index');
+        return redirect()->route('setting.roles.index');
     }
 
     public function edit($id)
@@ -64,7 +64,7 @@ class RoleController extends Controller
         $role->update(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
 
-        return redirect()->route('roles.index');
+        return redirect()->route('setting.roles.index');
     }
 
      /**
@@ -77,6 +77,6 @@ class RoleController extends Controller
     {
         $user = Role::findOrFail($id);
         $user->delete();
-        return redirect()->route('roles.index');
+        return redirect()->route('setting.roles.index');
     }
 }

@@ -23,4 +23,14 @@ class Salesman extends Model
     {
         return $this->hasMany(MasterStb::class, 'kode_salesman', 'kode');
     }
+
+    public function getNamaAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setNamaAttribute($value)
+    {
+        $this->attributes['nama'] = strtolower($value);
+    }
 }

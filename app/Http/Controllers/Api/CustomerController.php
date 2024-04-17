@@ -24,6 +24,7 @@ class CustomerController extends Controller
                 'pelanggan.*.kelurahan'     => 'required|string',
                 'pelanggan.*.telepon'       => 'required|string',
                 'pelanggan.*.kode_divisi'   => 'required|string',
+                'pelanggan.*.kode_area'   => 'required|string',
             ]);
 
             if ($validator->fails()) {
@@ -38,7 +39,8 @@ class CustomerController extends Controller
                 'kecamatan',
                 'kelurahan',
                 'telepon',
-                'kode_divisi'
+                'kode_divisi',
+                'kode_area',
             ]);
 
             $customers = Customer::all();

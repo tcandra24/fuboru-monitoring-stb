@@ -22,4 +22,19 @@ class Branch extends Model
     {
         return $this->hasMany(MasterStb::class, 'kode_area', 'kode');
     }
+
+    public function customer()
+    {
+        return $this->hasMany(Customer::class, 'kode_area', 'kode');
+    }
+
+    public function getNamaAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setNamaAttribute($value)
+    {
+        $this->attributes['nama'] = strtolower($value);
+    }
 }

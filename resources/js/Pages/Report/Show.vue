@@ -1,6 +1,5 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
-// import Pagination from "../../Components/Pagination.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
@@ -41,13 +40,13 @@ const props = defineProps({
                             <div class="row">
                                 <div class="d-flex flex-row">
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Nomer Kontrak :</h5>
+                                        <p class="fw-bold">Nomer Kontrak :</p>
                                         <p>
                                             {{ props.masterStb.nomer_kontrak }}
                                         </p>
                                     </div>
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Pelanggan:</h5>
+                                        <p class="fw-bold">Pelanggan:</p>
                                         <p>
                                             {{ props.masterStb.customer.nama }}
                                         </p>
@@ -57,13 +56,13 @@ const props = defineProps({
                             <div class="row">
                                 <div class="d-flex flex-row">
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Area :</h5>
+                                        <p class="fw-bold">Area :</p>
                                         <p>
                                             {{ props.masterStb.branch.nama }}
                                         </p>
                                     </div>
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Salesman:</h5>
+                                        <p class="fw-bold">Salesman:</p>
                                         <p>
                                             {{ props.masterStb.salesman.nama }}
                                         </p>
@@ -73,7 +72,7 @@ const props = defineProps({
                             <div class="row">
                                 <div class="d-flex flex-row">
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Periode Awal :</h5>
+                                        <p class="fw-bold">Periode Awal :</p>
                                         <p>
                                             {{
                                                 date_format(
@@ -83,7 +82,7 @@ const props = defineProps({
                                         </p>
                                     </div>
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Periode Akhir:</h5>
+                                        <p class="fw-bold">Periode Akhir:</p>
                                         <p>
                                             {{
                                                 date_format(
@@ -98,7 +97,7 @@ const props = defineProps({
                             <div class="row">
                                 <div class="d-flex flex-row">
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Target (Rp) :</h5>
+                                        <p class="fw-bold">Target (Rp) :</p>
                                         <p>
                                             Rp.
                                             {{
@@ -109,7 +108,7 @@ const props = defineProps({
                                         </p>
                                     </div>
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Hadiah (%):</h5>
+                                        <p class="fw-bold">Hadiah (%):</p>
                                         <p>
                                             {{ props.masterStb.hadiah_persen }}
                                         </p>
@@ -119,7 +118,7 @@ const props = defineProps({
                             <div class="row">
                                 <div class="d-flex flex-row">
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">Total Omset :</h5>
+                                        <p class="fw-bold">Total Omset :</p>
                                         <p>
                                             Rp.
                                             {{
@@ -131,9 +130,9 @@ const props = defineProps({
                                         </p>
                                     </div>
                                     <div class="d-flex flex-row w-100 gap-3">
-                                        <h5 class="fw-bold">
+                                        <p class="fw-bold">
                                             Sisa Belum Tercapai:
-                                        </h5>
+                                        </p>
                                         <p>
                                             {{
                                                 moneyFormat(
@@ -210,8 +209,6 @@ const props = defineProps({
                                     </tfoot>
                                 </table>
                             </div>
-                            <!-- End Table with hoverable rows -->
-                            <!-- <Pagination :pagination_links="pagination_links" /> -->
                         </div>
                     </div>
                 </div>

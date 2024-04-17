@@ -21,7 +21,7 @@ const { errors } = defineProps({
 
 const submit = () => {
     Inertia.post(
-        "/profile/change-password",
+        "/setting/profile/change-password",
         {
             old_password: form.old_password,
             new_password: form.new_password,

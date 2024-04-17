@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles', 'customer', 'branch')->paginate(999);
+        $users = User::with('roles', 'customer', 'branch')->paginate(10);
 
         return Inertia::render('User/Index', [
             'users' => $users,
@@ -72,18 +72,7 @@ class UserController extends Controller
 
         $user->assignRole($request->roles);
 
-        return redirect()->route('users.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('setting.users.index');
     }
 
     /**
@@ -139,7 +128,7 @@ class UserController extends Controller
 
         $user->syncRoles($request->roles);
 
-        return redirect()->route('users.index');
+        return redirect()->route('setting.users.index');
     }
 
     /**
@@ -152,6 +141,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('users.index');
+        return redirect()->route('setting.users.index');
     }
 }

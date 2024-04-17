@@ -32,8 +32,19 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'setting.permissions.index', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'master.customers.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.customers.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.customers.edit', 'guard_name' => 'web']);
+
         Permission::create(['name' => 'master.branches.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.branches.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.branches.edit', 'guard_name' => 'web']);
+
         Permission::create(['name' => 'master.divisions.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.divisions.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.divisions.edit', 'guard_name' => 'web']);
+
         Permission::create(['name' => 'master.salesmans.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.salesmans.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'master.salesmans.edit', 'guard_name' => 'web']);
     }
 }

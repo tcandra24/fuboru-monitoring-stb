@@ -22,6 +22,7 @@ class Customer extends Model
         'kelurahan',
         'telepon',
         'kode_divisi',
+        'kode_area',
     ];
 
     public function user()
@@ -38,4 +39,56 @@ class Customer extends Model
     {
         return $this->hasMany(MasterStb::class, 'kode_pelanggan', 'kode');
     }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'kode_area', 'kode');
+    }
+
+    public function getNamaAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setNamaAttribute($value)
+    {
+        $this->attributes['nama'] = strtolower($value);
+    }
+
+    public function getAlamatAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function getKotaAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setKotaAttribute($value)
+    {
+        $this->attributes['kota'] = strtolower($value);
+    }
+
+    public function getKecamatanAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setKecamatanAttribute($value)
+    {
+        $this->attributes['kecamatan'] = strtolower($value);
+    }
+
+    public function getKelurahanAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setKelurahanAttribute($value)
+    {
+        $this->attributes['kelurahan'] = strtolower($value);
+    }
+
+
 }

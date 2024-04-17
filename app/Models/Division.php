@@ -22,4 +22,14 @@ class Division extends Model
     {
         return $this->hasMany(Customer::class, 'kode_divisi', 'kode');
     }
+
+    public function getNamaAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function setNamaAttribute($value)
+    {
+        $this->attributes['nama'] = strtolower($value);
+    }
 }

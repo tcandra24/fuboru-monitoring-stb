@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
-// import Pagination from "../../Components/Pagination.vue";
+import Pagination from "../../Components/Pagination.vue";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
@@ -8,7 +8,7 @@ const props = defineProps({
     masterStb: Object,
 });
 
-const { links, from, to, total, current_page, per_page } = props.masterStb;
+const { links, from, to, total, last_page } = props.masterStb;
 
 const pagination_links = ref({
     links: links,
@@ -69,7 +69,7 @@ const pagination_links = ref({
                                                 :key="index"
                                             >
                                                 <th scope="row">
-                                                    {{ index + 1 }}
+                                                    {{ from++ }}
                                                 </th>
                                                 <td>
                                                     <Link
@@ -129,8 +129,10 @@ const pagination_links = ref({
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- End Table with hoverable rows -->
-                            <!-- <Pagination :pagination_links="pagination_links" /> -->
+                            <Pagination
+                                v-if="last_page > 1"
+                                :pagination_links="pagination_links"
+                            />
                         </div>
                     </div>
                 </div>

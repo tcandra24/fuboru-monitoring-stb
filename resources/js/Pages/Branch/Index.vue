@@ -1,14 +1,16 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
-// import Pagination from "../../Components/Pagination.vue";
+import Pagination from "../../Components/Pagination.vue";
+import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     branches: Object,
 });
 
-const { links, from, to, total, current_page, per_page } = props.branches;
+const { links, from, to, total, last_page } = props.branches;
 
 const pagination_links = ref({
     links: links,
@@ -16,6 +18,36 @@ const pagination_links = ref({
     to: to,
     total: total,
 });
+
+const sync = () => {
+    Swal.fire({
+        title: "Apa anda Sync Cabang?",
+        text: `Data cabang akan di update`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Inertia.patch(
+                "/master/sync/branches",
+                {},
+                {
+                    onSuccess: () => {
+                        toast.open({
+                            message: "Sukses sync area",
+                            type: "success",
+                            duration: 2000,
+                            position: "bottom",
+                            dismissible: true,
+                        });
+                    },
+                }
+            );
+        }
+    });
+};
 </script>
 
 <template>
@@ -42,14 +74,28 @@ const pagination_links = ref({
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Daftar Cabang</h5>
-                            <Link
-                                href="#"
-                                as="button"
-                                role="button"
-                                class="btn btn-outline-success mb-2"
-                            >
-                                <i class="bi bi-arrow-repeat me-1"></i> Sync
-                            </Link>
+                            <div class="d-flex gap-3">
+                                <Link
+                                    v-if="
+                                        hasAnyPermission([
+                                            'master.branches.create',
+                                        ])
+                                    "
+                                    href="/master/branches/create"
+                                    as="button"
+                                    role="button"
+                                    class="btn btn-outline-primary mb-2"
+                                >
+                                    <i class="bi bi-plus-lg me-1"></i> Tambah
+                                </Link>
+                                <button
+                                    role="button"
+                                    class="btn btn-outline-success mb-2"
+                                    @click="sync"
+                                >
+                                    <i class="bi bi-arrow-repeat me-1"></i> Sync
+                                </button>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <thead>
@@ -57,6 +103,7 @@ const pagination_links = ref({
                                             <th scope="col">#</th>
                                             <th scope="col">Kode</th>
                                             <th scope="col">Nama</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,21 +116,41 @@ const pagination_links = ref({
                                                 :key="index"
                                             >
                                                 <th scope="row">
-                                                    {{ index + 1 }}
+                                                    {{ from++ }}
                                                 </th>
                                                 <td>{{ branch.kode }}</td>
                                                 <td>{{ branch.nama }}</td>
+                                                <td :style="{ width: '10%' }">
+                                                    <Link
+                                                        :href="`/master/branches/${branch.kode.replaceAll(
+                                                            '/',
+                                                            '-'
+                                                        )}/edit`"
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'master.branches.edit',
+                                                            ])
+                                                        "
+                                                    >
+                                                        <i
+                                                            class="bi bi-pencil me-1"
+                                                        ></i>
+                                                    </Link>
+                                                </td>
                                             </tr>
                                         </template>
                                         <tr v-else>
-                                            <td colspan="3" class="text-center">
+                                            <td colspan="4" class="text-center">
                                                 Tidak ada Cabang
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <!-- End Table with hoverable rows -->
-                                <!-- <Pagination :pagination_links="pagination_links" /> -->
+                                <Pagination
+                                    v-if="last_page > 1"
+                                    :pagination_links="pagination_links"
+                                />
                             </div>
                         </div>
                     </div>

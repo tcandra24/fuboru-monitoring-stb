@@ -23,34 +23,117 @@ Route::group(['middleware' => ['auth']], function(){
     ->middleware('permission:dashboard.index')->name('dashboard.index');
 
     Route::group(['prefix' => '/master'], function() {
-        Route::get('/customers', [ \App\Http\Controllers\Admin\Master\CustomerController::class, 'index' ])
-        ->middleware('permission:master.customers.index');
+        // Route::get('/customers', [ \App\Http\Controllers\Admin\Master\CustomerController::class, 'index' ])
+        // ->middleware('permission:master.customers.index')->name('master.customers.index');
+        Route::resource('/customers', App\Http\Controllers\Admin\Master\CustomerController::class, [
+            'only' => [
+                'index', 'create', 'store', 'edit', 'update'
+            ], 'parameters' => [
+                'customers' => 'kode'
+            ]
+        ])
+        ->middleware('permission:master.customers.index|master.customers.create|master.customers.edit')->names([
+            'index' => 'master.customers.index',
+            'create' => 'master.customers.create',
+            'store' => 'master.customers.store',
+            'edit' => 'master.customers.edit',
+            'update' => 'master.customers.update',
+        ]);
 
-        Route::get('/branches', [ \App\Http\Controllers\Admin\Master\BranchController::class, 'index' ])
-        ->middleware('permission:master.branches.index');
+        // Route::get('/branches', [ \App\Http\Controllers\Admin\Master\BranchController::class, 'index' ])
+        // ->middleware('permission:master.branches.index')->name('master.branches.index');
+        Route::resource('/branches', App\Http\Controllers\Admin\Master\BranchController::class, [
+            'only' => [
+                'index', 'create', 'store', 'edit', 'update'
+            ], 'parameters' => [
+                'branches' => 'kode'
+            ]
+        ])
+        ->middleware('permission:master.branches.index|master.branches.create|master.branches.edit')->names([
+            'index' => 'master.branches.index',
+            'create' => 'master.branches.create',
+            'store' => 'master.branches.store',
+            'edit' => 'master.branches.edit',
+            'update' => 'master.branches.update',
+        ]);
 
-        Route::get('/salesmans', [ \App\Http\Controllers\Admin\Master\SalesmanController::class, 'index' ])
-        ->middleware('permission:master.salesmans.index');
+        // Route::get('/salesmans', [ \App\Http\Controllers\Admin\Master\SalesmanController::class, 'index' ])
+        // ->middleware('permission:master.salesmans.index')->name('master.salesmans.index');
+        Route::resource('/salesmans', App\Http\Controllers\Admin\Master\SalesmanController::class, [
+            'only' => [
+                'index', 'create', 'store', 'edit', 'update'
+            ], 'parameters' => [
+                'salesmans' => 'kode'
+            ]
+        ])
+        ->middleware('permission:master.salesmans.index|master.salesmans.create|master.salesmans.edit')->names([
+            'index' => 'master.salesmans.index',
+            'create' => 'master.salesmans.create',
+            'store' => 'master.salesmans.store',
+            'edit' => 'master.salesmans.edit',
+            'update' => 'master.salesmans.update',
+        ]);
 
-        Route::get('/divisions', [ \App\Http\Controllers\Admin\Master\DivisionController::class, 'index' ])
-        ->middleware('permission:master.divisions.index');
+        // Route::get('/divisions', [ \App\Http\Controllers\Admin\Master\DivisionController::class, 'index' ])
+        // ->middleware('permission:master.divisions.index')->name('master.divisions.index');
+        Route::resource('/divisions', App\Http\Controllers\Admin\Master\DivisionController::class, [
+            'only' => [
+                'index', 'create', 'store', 'edit', 'update'
+            ], 'parameters' => [
+                'divisions' => 'kode'
+            ]
+        ])
+        ->middleware('permission:master.divisions.index|master.divisions.create|master.divisions.edit')->names([
+            'index' => 'master.divisions.index',
+            'create' => 'master.divisions.create',
+            'store' => 'master.divisions.store',
+            'edit' => 'master.divisions.edit',
+            'update' => 'master.divisions.update',
+        ]);
+
+        Route::group(['prefix' => '/sync'], function() {
+            Route::patch('/customers', [ \App\Http\Controllers\Admin\Master\CustomerController::class, 'sync' ])
+            ->middleware('permission:master.customers.index')->name('master.sync.customers.index');
+
+            Route::patch('/branches', [ \App\Http\Controllers\Admin\Master\BranchController::class, 'sync' ])
+            ->middleware('permission:master.branches.index')->name('master.sync.branches.index');
+
+            Route::patch('/salesmans', [ \App\Http\Controllers\Admin\Master\SalesmanController::class, 'sync' ])
+            ->middleware('permission:master.salesmans.index')->name('master.sync.salesmans.index');
+        });
     });
 
     Route::group(['prefix' => '/report'], function() {
         Route::resource('/stb', App\Http\Controllers\Admin\Report\StbController::class, [ 'only' => ['index', 'show'], 'parameters' => [
             'stb' => 'nomer_kontrak'
-        ] ])->middleware('permission:report.stb.index');
+        ] ])->middleware('permission:report.stb.index')->names([
+            'index' => 'report.stb.index',
+            'show' => 'report.stb.detail',
+        ]);
     });
 
     Route::group(['prefix' => '/setting'], function() {
-        Route::resource('/users', App\Http\Controllers\Admin\Setting\UserController::class)
-        ->middleware('permission:setting.users.index|setting.users.create|setting.users.edit|setting.users.delete');
+        Route::resource('/users', App\Http\Controllers\Admin\Setting\UserController::class, [ 'except' => ['show']])
+        ->middleware('permission:setting.users.index|setting.users.create|setting.users.edit|setting.users.delete')->names([
+            'index' => 'setting.users.index',
+            'create' => 'setting.users.create',
+            'store' => 'setting.roles.store',
+            'edit' => 'setting.users.edit',
+            'update' => 'setting.users.update',
+            'destroy' => 'setting.users.detail',
+        ]);;
 
-        Route::resource('/roles', App\Http\Controllers\Admin\Setting\RoleController::class)
-        ->middleware('permission:setting.roles.index|setting.roles.create|setting.roles.edit|setting.roles.delete');
+        Route::resource('/roles', App\Http\Controllers\Admin\Setting\RoleController::class, [ 'except' => ['show']])
+        ->middleware('permission:setting.roles.index|setting.roles.create|setting.roles.edit|setting.roles.delete')->names([
+            'index' => 'setting.roles.index',
+            'create' => 'setting.roles.create',
+            'edit' => 'setting.roles.edit',
+            'update' => 'setting.roles.update',
+            'destroy' => 'setting.roles.detail',
+        ]);;
 
         Route::get('/permissions', [ \App\Http\Controllers\Admin\Setting\PermissionController::class, 'index' ])
-        ->middleware('permission:setting.permissions.index');
+        ->middleware('permission:setting.permissions.index')->name('setting.permissions.index');
 
         Route::get('/profile', [App\Http\Controllers\Admin\Setting\ProfileController::class, 'index'])->name('profile.index');
         Route::post('/profile/change-password', [App\Http\Controllers\Admin\Setting\ProfileController::class, 'change_password']);

@@ -21,7 +21,7 @@ class StbController extends Controller
         })
         ->when(Auth::user()->kode_pelanggan, function($query){
             $query->where('kode_pelanggan', Auth::user()->kode_pelanggan);
-        })->orderBy('periode_awal', 'desc')->paginate(999);
+        })->orderBy('periode_awal', 'desc')->paginate(10);
 
         return Inertia::render('Report/Index', [
             'masterStb' => $masterStb,
