@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Salesman;
+use App\Models\SyncSalesman;
 
 class SalesmanController extends Controller
 {
@@ -43,5 +44,39 @@ class SalesmanController extends Controller
                 'message' => $e->getMessage()
             ], 409);
         }
+    }
+
+    public function sync()
+    {
+        try {
+            $syncSalesman = SyncSalesman::all();
+
+            $arrayInsert = $syncSalesman->map(function($data){
+                return [
+                    'kode' => $data->KodeID,
+                    'nama' => $data->Nama,
+                    'alamat' => '-',
+                    'kota' => '-',
+                ];
+            });
+
+            Salesman::upsert($arrayInsert->toArray(), ['kode'], [
+                'nama',
+                'alamat',
+                'kota',
+            ]);
+
+            $salesmans = Salesman::all();
+            return response()->json([
+                'success' => true,
+                'salesman' => $salesmans
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 409);
+        }
+
     }
 }

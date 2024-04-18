@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Branch;
+use App\Models\SyncBranch;
 
 class BranchController extends Controller
 {
@@ -30,6 +31,32 @@ class BranchController extends Controller
             return response()->json([
                 'success'   => true,
                 'cabang'    => $branches
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 409);
+        }
+    }
+
+    public function sync()
+    {
+        try {
+            $syncBranch = SyncBranch::all();
+            $arrayInsert = $syncBranch->map(function($data){
+                return [
+                    'kode' => $data->Kode,
+                    'nama' => $data->Cabang,
+                ];
+            });
+
+            Branch::upsert($arrayInsert->toArray(), ['kode'], ['nama']);
+
+            $branches = Branch::all();
+            return response()->json([
+                'success' => true,
+                'area' => $branches
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

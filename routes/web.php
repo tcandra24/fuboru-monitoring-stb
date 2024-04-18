@@ -23,8 +23,6 @@ Route::group(['middleware' => ['auth']], function(){
     ->middleware('permission:dashboard.index')->name('dashboard.index');
 
     Route::group(['prefix' => '/master'], function() {
-        // Route::get('/customers', [ \App\Http\Controllers\Admin\Master\CustomerController::class, 'index' ])
-        // ->middleware('permission:master.customers.index')->name('master.customers.index');
         Route::resource('/customers', App\Http\Controllers\Admin\Master\CustomerController::class, [
             'only' => [
                 'index', 'create', 'store', 'edit', 'update'
@@ -40,8 +38,6 @@ Route::group(['middleware' => ['auth']], function(){
             'update' => 'master.customers.update',
         ]);
 
-        // Route::get('/branches', [ \App\Http\Controllers\Admin\Master\BranchController::class, 'index' ])
-        // ->middleware('permission:master.branches.index')->name('master.branches.index');
         Route::resource('/branches', App\Http\Controllers\Admin\Master\BranchController::class, [
             'only' => [
                 'index', 'create', 'store', 'edit', 'update'
@@ -57,8 +53,6 @@ Route::group(['middleware' => ['auth']], function(){
             'update' => 'master.branches.update',
         ]);
 
-        // Route::get('/salesmans', [ \App\Http\Controllers\Admin\Master\SalesmanController::class, 'index' ])
-        // ->middleware('permission:master.salesmans.index')->name('master.salesmans.index');
         Route::resource('/salesmans', App\Http\Controllers\Admin\Master\SalesmanController::class, [
             'only' => [
                 'index', 'create', 'store', 'edit', 'update'
@@ -74,8 +68,6 @@ Route::group(['middleware' => ['auth']], function(){
             'update' => 'master.salesmans.update',
         ]);
 
-        // Route::get('/divisions', [ \App\Http\Controllers\Admin\Master\DivisionController::class, 'index' ])
-        // ->middleware('permission:master.divisions.index')->name('master.divisions.index');
         Route::resource('/divisions', App\Http\Controllers\Admin\Master\DivisionController::class, [
             'only' => [
                 'index', 'create', 'store', 'edit', 'update'
@@ -90,17 +82,6 @@ Route::group(['middleware' => ['auth']], function(){
             'edit' => 'master.divisions.edit',
             'update' => 'master.divisions.update',
         ]);
-
-        Route::group(['prefix' => '/sync'], function() {
-            Route::patch('/customers', [ \App\Http\Controllers\Admin\Master\CustomerController::class, 'sync' ])
-            ->middleware('permission:master.customers.index')->name('master.sync.customers.index');
-
-            Route::patch('/branches', [ \App\Http\Controllers\Admin\Master\BranchController::class, 'sync' ])
-            ->middleware('permission:master.branches.index')->name('master.sync.branches.index');
-
-            Route::patch('/salesmans', [ \App\Http\Controllers\Admin\Master\SalesmanController::class, 'sync' ])
-            ->middleware('permission:master.salesmans.index')->name('master.sync.salesmans.index');
-        });
     });
 
     Route::group(['prefix' => '/report'], function() {

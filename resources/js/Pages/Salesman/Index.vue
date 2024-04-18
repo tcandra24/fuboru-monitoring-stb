@@ -1,14 +1,21 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
 import Pagination from "../../Components/Pagination.vue";
-import { Inertia } from "@inertiajs/inertia";
+// import { Inertia } from "@inertiajs/inertia";
+import Api from "../../axios";
+
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import Swal from "sweetalert2";
 
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 const props = defineProps({
     salesmans: Object,
 });
+
+const toast = useToast();
 
 const { links, from, to, total, last_page } = props.salesmans;
 
@@ -19,6 +26,8 @@ const pagination_links = ref({
     total: total,
 });
 
+const loading = ref(false);
+
 const sync = () => {
     Swal.fire({
         title: "Apa anda Sync Salesman?",
@@ -28,23 +37,44 @@ const sync = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes",
-    }).then((result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
-            Inertia.patch(
-                "/master/sync/salesmans",
-                {},
-                {
-                    onSuccess: () => {
-                        toast.open({
-                            message: "Sukses sync salesman",
-                            type: "success",
-                            duration: 2000,
-                            position: "bottom",
-                            dismissible: true,
-                        });
-                    },
-                }
-            );
+            try {
+                loading.value = true;
+                await Api.patch("/master/sync/salesmans");
+                toast.open({
+                    message: "Sukses sync Salesman",
+                    type: "success",
+                    duration: 2000,
+                    position: "bottom",
+                    dismissible: true,
+                });
+            } catch (error) {
+                toast.open({
+                    message: error,
+                    type: "error",
+                    duration: 2000,
+                    position: "bottom",
+                    dismissible: true,
+                });
+            } finally {
+                loading.value = false;
+            }
+            // Inertia.patch(
+            //     "/master/sync/salesmans",
+            //     {},
+            //     {
+            //         onSuccess: () => {
+            //             toast.open({
+            //                 message: "Sukses sync salesman",
+            //                 type: "success",
+            //                 duration: 2000,
+            //                 position: "bottom",
+            //                 dismissible: true,
+            //             });
+            //         },
+            //     }
+            // );
         }
     });
 };
@@ -85,6 +115,7 @@ const sync = () => {
                                     as="button"
                                     role="button"
                                     class="btn btn-outline-primary mb-2"
+                                    :disabled="loading"
                                 >
                                     <i class="bi bi-plus-lg me-1"></i> Tambah
                                 </Link>
@@ -92,8 +123,19 @@ const sync = () => {
                                     role="button"
                                     class="btn btn-outline-success mb-2"
                                     @click="sync"
+                                    :disabled="loading"
                                 >
-                                    <i class="bi bi-arrow-repeat me-1"></i> Sync
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                        v-if="loading"
+                                    ></span>
+                                    <i
+                                        v-else
+                                        class="bi bi-arrow-repeat me-1"
+                                    ></i>
+                                    Sync
                                 </button>
                             </div>
                             <div class="table-responsive">

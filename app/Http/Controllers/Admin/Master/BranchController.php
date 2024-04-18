@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Models\Branch;
-use App\Models\SyncBranch;
 
 class BranchController extends Controller
 {
@@ -62,33 +61,6 @@ class BranchController extends Controller
             'kode' => $request->kode,
             'nama' => $request->nama,
         ]);
-
-        return redirect()->route('master.branches.index');
-    }
-
-    public function sync()
-    {
-        $syncBranch = SyncBranch::all();
-        $arrayInsert = $syncBranch->map(function($data){
-            return [
-                'kode' => $data->Kode,
-                'nama' => $data->Cabang,
-            ];
-        });
-        // foreach($syncBranch as $branch){
-        //     // Branch::updateOrCreate(
-        //     //     ['kode' => $branch->Kode],
-        //     //     [
-        //     //         'nama' => $branch->Cabang,
-        //     //     ]
-        //     // );
-        //     array_push($arrayInsert, [
-        //         'kode' => $branch->Kode,
-        //         'nama' => $branch->Cabang,
-        //     ]);
-        // }
-
-        Branch::upsert($arrayInsert, ['kode'], ['nama']);
 
         return redirect()->route('master.branches.index');
     }

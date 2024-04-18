@@ -1,12 +1,21 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
 import Pagination from "../../Components/Pagination.vue";
+// import { Inertia } from "@inertiajs/inertia";
+import Api from "../../axios";
+
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import Swal from "sweetalert2";
+
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 const props = defineProps({
     divisions: Object,
 });
+
+const toast = useToast();
 
 const { links, from, to, total, last_page } = props.divisions;
 
@@ -17,8 +26,57 @@ const pagination_links = ref({
     total: total,
 });
 
+const loading = ref(false);
+
 const sync = () => {
-    //
+    Swal.fire({
+        title: "Apa anda Sync Divisi?",
+        text: `Data divisi akan di update`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                loading.value = true;
+                await Api.patch("/master/sync/divisions");
+                toast.open({
+                    message: "Sukses sync Divisi",
+                    type: "success",
+                    duration: 2000,
+                    position: "bottom",
+                    dismissible: true,
+                });
+            } catch (error) {
+                toast.open({
+                    message: error,
+                    type: "error",
+                    duration: 2000,
+                    position: "bottom",
+                    dismissible: true,
+                });
+            } finally {
+                loading.value = false;
+            }
+            // Inertia.patch(
+            //     "/master/sync/divisions",
+            //     {},
+            //     {
+            //         onSuccess: () => {
+            //             toast.open({
+            //                 message: "Sukses sync divisi",
+            //                 type: "success",
+            //                 duration: 2000,
+            //                 position: "bottom",
+            //                 dismissible: true,
+            //             });
+            //         },
+            //     }
+            // );
+        }
+    });
 };
 </script>
 
@@ -57,6 +115,7 @@ const sync = () => {
                                     as="button"
                                     role="button"
                                     class="btn btn-outline-primary mb-2"
+                                    :disabled="loading"
                                 >
                                     <i class="bi bi-plus-lg me-1"></i> Tambah
                                 </Link>
@@ -64,8 +123,19 @@ const sync = () => {
                                     role="button"
                                     class="btn btn-outline-success mb-2"
                                     @click="sync"
+                                    :disabled="loading"
                                 >
-                                    <i class="bi bi-arrow-repeat me-1"></i> Sync
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                        v-if="loading"
+                                    ></span>
+                                    <i
+                                        v-else
+                                        class="bi bi-arrow-repeat me-1"
+                                    ></i>
+                                    Sync
                                 </button>
                             </div>
                             <div class="table-responsive">

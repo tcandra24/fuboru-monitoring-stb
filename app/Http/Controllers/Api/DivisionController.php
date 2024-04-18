@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Division;
+use App\Models\SyncDivision;
 
 class DivisionController extends Controller
 {
@@ -30,6 +31,32 @@ class DivisionController extends Controller
             return response()->json([
                 'success'   => true,
                 'divisi'    => $division
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 409);
+        }
+    }
+
+    public function sync()
+    {
+        try {
+            $syncDivision = SyncDivision::all();
+            $arrayInsert = $syncDivision->map(function($data){
+                return [
+                    'kode' => $data->kode,
+                    'nama' => $data->nama,
+                ];
+            });
+
+            Division::upsert($arrayInsert->toArray(), ['kode'], ['nama']);
+
+            $divisions = Division::all();
+            return response()->json([
+                'success' => true,
+                'divisi' => $divisions
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

@@ -9,7 +9,6 @@ use Inertia\Inertia;
 use App\Models\Customer;
 use App\Models\Branch;
 use App\Models\Division;
-use App\Models\SyncCustomer;
 class CustomerController extends Controller
 {
     public function index()
@@ -103,78 +102,6 @@ class CustomerController extends Controller
             'telepon' => $request->telepon,
             'kode_divisi' => $request->kode_divisi,
             'kode_area' => $request->kode_area,
-        ]);
-
-        return redirect()->route('master.customers.index');
-    }
-
-    public function sync()
-    {
-        $syncCustomer = SyncCustomer::where('divisi', '<>', '')->get();
-        $arrayInsert = $syncCustomer->map(function($data){
-            $division = Division::select('kode')->where('nama', 'LIKE', '%'. $data->Divisi .'%')->first();
-
-            return [
-                'kode' => $data->KdPlg,
-                'nama' => $data->Nama,
-                'alamat' => $data->Alamat,
-                'kota' => $data->Kota,
-                'kode_pos' => '-',
-                'kecamatan' => $data->Kec,
-                'kelurahan' => '-',
-                'telepon' => $data->Telp ?? '-',
-                'kode_divisi' => $division ? $division->kode : '-',
-            ];
-        });
-        // foreach($syncCustomer as $customer){
-        //     if(!$customer->Divisi){
-        //         continue;
-        //     }
-
-        //     $divisi = Division::where('nama', 'LIKE', '%' . $customer->Divisi . '%');
-        //     if(!$divisi->exists()){
-        //         continue;
-        //     }
-        //     $kodeDivisi = $divisi->first();
-
-        //     // Customer::updateOrCreate(
-        //     //     [
-        //     //         'kode' => $customer->KdPlg,
-        //     //     ],
-        //     //     [
-        //     //         'nama' => $customer->Nama,
-        //     //         'alamat' => $customer->Alamat,
-        //     //         'kota' => $customer->Kota,
-        //     //         'kode_pos' => '-',
-        //     //         'kecamatan' => $customer->Kec,
-        //     //         'kelurahan' => '-',
-        //     //         'telepon' => $customer->Telp ?? '-',
-        //     //         'kode_divisi' => $kodeDivisi->kode,
-        //     //     ]
-        //     // );
-
-        //     array_push($arrayInsert, [
-        //         'kode' => $customer->KdPlg,
-        //         'nama' => $customer->Nama,
-        //         'alamat' => $customer->Alamat,
-        //         'kota' => $customer->Kota,
-        //         'kode_pos' => '-',
-        //         'kecamatan' => $customer->Kec,
-        //         'kelurahan' => '-',
-        //         'telepon' => $customer->Telp ?? '-',
-        //         'kode_divisi' => $kodeDivisi->kode,
-        //     ]);
-        // }
-
-        Customer::upsert($arrayInsert, ['kode'], [
-            'nama',
-            'alamat',
-            'kota',
-            'kode_pos',
-            'kecamatan',
-            'kelurahan',
-            'telepon',
-            'kode_divisi'
         ]);
 
         return redirect()->route('master.customers.index');

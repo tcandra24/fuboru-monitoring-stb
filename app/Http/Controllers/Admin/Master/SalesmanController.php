@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Models\Salesman;
-use App\Models\SyncSalesman;
 
 class SalesmanController extends Controller
 {
@@ -70,47 +69,6 @@ class SalesmanController extends Controller
             'alamat' => $request->alamat,
             'kota' => $request->kota,
         ]);
-
-        return redirect()->route('master.salesmans.index');
-    }
-
-    public function sync()
-    {
-        $syncSalesman = SyncSalesman::all();
-
-        $arrayInsert = $syncSalesman->map(function($data){
-            return [
-                'kode' => $data->KodeID,
-                'nama' => $data->Nama,
-                'alamat' => '-',
-                'kota' => '-',
-            ];
-        });
-        // foreach($syncSalesman as $sales){
-        //     // Salesman::updateOrCreate(
-        //     //     [
-        //     //         'kode' => $sales->KodeID,
-        //     //     ],
-        //     //     [
-        //     //         'nama' => $sales->Nama,
-        //     //         'alamat' => '-',
-        //     //         'kota' => '-',
-        //     //     ]
-        //     // );
-        //     array_push($arrayInsert, [
-        //         'kode' => $sales->KodeID,
-        //         'nama' => $sales->Nama,
-        //         'alamat' => '-',
-        //         'kota' => '-',
-        //     ]);
-        // }
-
-        Salesman::upsert($arrayInsert, ['kode'], [
-            'nama',
-            'alamat',
-            'kota',
-        ]);
-
 
         return redirect()->route('master.salesmans.index');
     }
