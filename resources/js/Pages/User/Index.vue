@@ -89,7 +89,7 @@ const destroy = (id, nama) => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Kode Pelanggan</th>
+                                            <th scope="col">Pelanggan</th>
                                             <th scope="col">Area</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Nama</th>
