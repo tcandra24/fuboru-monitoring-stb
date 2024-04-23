@@ -118,7 +118,12 @@ const submit = () => {
 
             <div class="credits">
                 Dibuat oleh
-                <a href="https://fuboru.co.id/">Fuboru Indonesia</a>
+                <a
+                    href="https://fuboru.co.id/"
+                    target="_blank"
+                    ref="nofollow noopener"
+                    >Fuboru Indonesia</a
+                >
             </div>
         </div>
     </LayoutAuth>
