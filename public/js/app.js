@@ -20534,23 +20534,22 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    var isNavClose = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true);
+    var isNavOpen = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true);
     var toggleNavbar = function toggleNavbar() {
-      if (isNavClose.value) {
+      if (isNavOpen.value) {
         document.body.classList.add("toggle-sidebar");
       } else {
         document.body.classList.remove("toggle-sidebar");
       }
-      isNavClose.value = !isNavClose.value;
+      isNavOpen.value = !isNavOpen.value;
     };
     var __returned__ = {
-      isNavClose: isNavClose,
+      isNavOpen: isNavOpen,
       toggleNavbar: toggleNavbar,
       get Link() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Link;
       },
-      ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref,
-      computed: vue__WEBPACK_IMPORTED_MODULE_1__.computed
+      ref: vue__WEBPACK_IMPORTED_MODULE_1__.ref
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -23184,7 +23183,7 @@ var _hoisted_2 = {
 };
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: "/admin/img/logo.png",
-  alt: ""
+  alt: "Fuboru"
 }, null, -1 /* HOISTED */);
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "d-none d-lg-block"
@@ -27837,7 +27836,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import { ZiggyVue } from "ziggy-js";\
+// import { ZiggyVue } from "ziggy-js";
+// import { ZiggyVue } from "ziggy-js";
+// import { Ziggy } from "./ziggy.js";
 
 
 
@@ -27878,7 +27879,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     }).use(plugin)
-    // .use(ZiggyVue)
+    // .use(ZiggyVue, Ziggy)
     .mount(el);
     delete el.dataset.page;
     return application;

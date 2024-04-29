@@ -1,16 +1,16 @@
 <script setup>
 import { Link } from "@inertiajs/inertia-vue3";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
-const isNavClose = ref(true);
+const isNavOpen = ref(true);
 
 const toggleNavbar = () => {
-    if (isNavClose.value) {
+    if (isNavOpen.value) {
         document.body.classList.add("toggle-sidebar");
     } else {
         document.body.classList.remove("toggle-sidebar");
     }
-    isNavClose.value = !isNavClose.value;
+    isNavOpen.value = !isNavOpen.value;
 };
 </script>
 
@@ -18,7 +18,7 @@ const toggleNavbar = () => {
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <Link href="/" class="logo d-flex align-items-center">
-                <img src="/admin/img/logo.png" alt="" />
+                <img src="/admin/img/logo.png" alt="Fuboru" />
                 <span class="d-none d-lg-block">Fuboru</span>
             </Link>
             <i @click="toggleNavbar" class="bi bi-list toggle-sidebar-btn"></i>
