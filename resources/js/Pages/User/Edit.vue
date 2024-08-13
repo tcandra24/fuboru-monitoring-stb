@@ -25,6 +25,7 @@ const form = reactive({
     kode_pelanggan: props.user.kode_pelanggan,
     kode_area: props.user.kode_area,
     email: props.user.email,
+    valid: props.user.valid ? true : false,
     password: "",
     password_confirmation: "",
     roles: props.user.roles.map((obj) => obj.name),
@@ -41,6 +42,7 @@ const submit = () => {
             kode_pelanggan: form.kode_pelanggan,
             kode_area: form.kode_area,
             email: form.email,
+            valid: form.valid,
             password: form.password,
             password_confirmation: form.password_confirmation,
             roles: form.roles,
@@ -257,6 +259,22 @@ const submit = () => {
                                         class="invalid-feedback"
                                     >
                                         {{ errors.password_confirmation }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="gridCheck2"
+                                            v-model="form.valid"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="gridCheck2"
+                                        >
+                                            Valid
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-3">

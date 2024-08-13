@@ -1,7 +1,9 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 
-// import { ZiggyVue } from "ziggy-js";\
+// import { ZiggyVue } from "ziggy-js";
+// import { ZiggyVue } from "ziggy-js";
+// import { Ziggy } from "./ziggy.js";
 import moment from "moment";
 import "moment/locale/id";
 
@@ -42,7 +44,7 @@ createInertiaApp({
                 },
             })
             .use(plugin)
-            // .use(ZiggyVue)
+            // .use(ZiggyVue, Ziggy)
             .mount(el);
 
         delete el.dataset.page;

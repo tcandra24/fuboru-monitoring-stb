@@ -95,6 +95,7 @@ const destroy = (id, nama) => {
                                             <th scope="col">Nama</th>
                                             <th scope="col">Kota</th>
                                             <th scope="col">Role</th>
+                                            <th scope="col">Valid</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -141,6 +142,19 @@ const destroy = (id, nama) => {
                                                             ucwords(role.name)
                                                         }}</span
                                                     >
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        v-if="user.valid"
+                                                        class="badge rounded-pill bg-info text-dark"
+                                                        >Valid</span
+                                                    >
+                                                    <span
+                                                        v-else
+                                                        class="badge rounded-pill bg-danger text-dark"
+                                                    >
+                                                        Tidak Valid
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     <Link

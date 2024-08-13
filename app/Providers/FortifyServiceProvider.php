@@ -29,6 +29,15 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Fortify::authenticateUsing(function (Request $request){
+            $user = \App\Models\User::where('email', $request->email)->first();
+
+            if ($user && $user->valid &&
+                \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+        });
+
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
@@ -47,6 +56,16 @@ class FortifyServiceProvider extends ServiceProvider
         //login
         Fortify::loginView(function () {
             return Inertia::render('Auth/Login');
+        });
+
+        Fortify::registerView(function () {
+            $customers = \App\Models\Customer::all();
+            $branches = \App\Models\Branch::all();
+
+            return Inertia::render('Auth/Register', [
+                'customers' => $customers,
+                'branches' => $branches,
+            ]);
         });
 
         //forgot

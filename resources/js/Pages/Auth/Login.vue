@@ -112,6 +112,12 @@ const submit = () => {
                                 Login
                             </button>
                         </div>
+                        <div class="col-12">
+                            <p class="small mb-0">
+                                Belum punya akun?
+                                <Link href="/register">Buat akun sekarang</Link>
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>

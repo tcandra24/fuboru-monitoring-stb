@@ -62,11 +62,14 @@ class UserController extends Controller
             'password_confirmation' => 'min:8',
         ]);
 
+        $valid = $request->valid ? true : false;
+
         $user = User::create([
             'nama' => $request->nama,
             'kode_pelanggan' => $request->kode_pelanggan,
             'kode_area' => $request->kode_area,
             'email' => $request->email,
+            'valid' => $valid,
             'password' => bcrypt($request->password),
         ]);
 
@@ -113,11 +116,14 @@ class UserController extends Controller
             'password' => 'nullable',
         ]);
 
+        $valid = $request->valid ? true : false;
+
         $fields = [
             'nama' => $request->nama,
             'kode_pelanggan' => $request->kode_pelanggan,
             'kode_area' => $request->kode_area,
             'email' => $request->email,
+            'valid' => $valid,
         ];
 
         if($request->password !== '') {
