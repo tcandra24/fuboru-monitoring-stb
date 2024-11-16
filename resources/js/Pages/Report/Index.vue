@@ -80,12 +80,13 @@ const update = (kode_nota, pelanggan) => {
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Kode Nota</th>
+                                            <th scope="col">Kode Pelanggan</th>
                                             <th scope="col">Pelanggan</th>
-                                            <th scope="col">Area</th>
                                             <th scope="col">Periode Awal</th>
                                             <th scope="col">Periode Akhir</th>
                                             <th scope="col">Target (Rp)</th>
                                             <th scope="col">Hadiah (%)</th>
+                                            <th scope="col">Jenis</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -104,8 +105,8 @@ const update = (kode_nota, pelanggan) => {
                                                 <td>
                                                     {{ stb.kodenota }}
                                                 </td>
+                                                <td>{{ stb.kdplg }}</td>
                                                 <td>{{ stb.nmplg }}</td>
-                                                <td>{{ stb.area }}</td>
                                                 <td>
                                                     {{ date_format(stb.awal) }}
                                                 </td>
@@ -119,6 +120,7 @@ const update = (kode_nota, pelanggan) => {
                                                     }}
                                                 </td>
                                                 <td>{{ stb.hadiah }} %</td>
+                                                <td>{{ stb.jenis }}</td>
                                                 <td>
                                                     <button
                                                         class="btn"

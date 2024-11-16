@@ -132,12 +132,13 @@ const props = defineProps({
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Kode Nota</th>
+                                            <th scope="col">Kode Pelanggan</th>
                                             <th scope="col">Pelanggan</th>
-                                            <th scope="col">Area</th>
                                             <th scope="col">Periode Awal</th>
                                             <th scope="col">Periode Akhir</th>
                                             <th scope="col">Target (Rp)</th>
                                             <th scope="col">Hadiah (%)</th>
+                                            <th scope="col">Jenis</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -154,8 +155,8 @@ const props = defineProps({
                                                 <td>
                                                     {{ stb.kodenota }}
                                                 </td>
+                                                <td>{{ stb.kdplg }}</td>
                                                 <td>{{ stb.nmplg }}</td>
-                                                <td>{{ stb.area }}</td>
                                                 <td>
                                                     {{ date_format(stb.awal) }}
                                                 </td>
@@ -169,6 +170,7 @@ const props = defineProps({
                                                     }}
                                                 </td>
                                                 <td>{{ stb.hadiah }} %</td>
+                                                <td>{{ stb.jenis }}</td>
                                             </tr>
                                         </template>
                                         <tr v-else>
