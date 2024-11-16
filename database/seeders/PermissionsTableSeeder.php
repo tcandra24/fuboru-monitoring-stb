@@ -17,6 +17,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'dashboard.index', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'report.stb.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'report.stb.change-status', 'guard_name' => 'web']);
         Permission::create(['name' => 'report.stb.detail', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'setting.users.index', 'guard_name' => 'web']);

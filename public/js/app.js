@@ -22127,8 +22127,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Layouts_App_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layouts/App.vue */ "./resources/js/Layouts/App.vue");
 /* harmony import */ var _Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Components/Pagination.vue */ "./resources/js/Components/Pagination.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-toast-notification */ "./node_modules/vue-toast-notification/dist/index.js");
+/* harmony import */ var vue_toast_notification__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_toast_notification__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_toast_notification_dist_theme_sugar_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-toast-notification/dist/theme-sugar.css */ "./node_modules/vue-toast-notification/dist/theme-sugar.css");
+
+
+
+
 
 
 
@@ -22142,34 +22152,69 @@ __webpack_require__.r(__webpack_exports__);
     var __expose = _ref.expose;
     __expose();
     var props = __props;
+    var toast = (0,vue_toast_notification__WEBPACK_IMPORTED_MODULE_6__.useToast)();
     var _props$masterStb = props.masterStb,
       links = _props$masterStb.links,
       from = _props$masterStb.from,
       to = _props$masterStb.to,
       total = _props$masterStb.total,
       last_page = _props$masterStb.last_page;
-    var pagination_links = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)({
+    var pagination_links = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)({
       links: links,
       from: from,
       to: to,
       total: total
     });
+    var update = function update(kode_nota, pelanggan) {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+        title: "Apa anda yakin?",
+        text: "Data STB \"".concat(pelanggan, "\" akan ditandai sudah diinput"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var kodeNota = kode_nota.replaceAll("/", "-");
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.patch("/report/stb/update/".concat(kodeNota));
+          toast.open({
+            message: "STB berhasil diupdate",
+            type: "success",
+            duration: 2000,
+            position: "bottom",
+            dismissible: true
+          });
+        }
+      });
+    };
     var __returned__ = {
       props: props,
+      toast: toast,
       links: links,
       from: from,
       to: to,
       total: total,
       last_page: last_page,
       pagination_links: pagination_links,
+      update: update,
       LayoutApp: _Layouts_App_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
       Pagination: _Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-      ref: vue__WEBPACK_IMPORTED_MODULE_2__.ref,
+      get Inertia() {
+        return _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia;
+      },
+      ref: vue__WEBPACK_IMPORTED_MODULE_3__.ref,
       get Head() {
-        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.Head;
+        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.Head;
       },
       get Link() {
-        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.Link;
+        return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_4__.Link;
+      },
+      get Swal() {
+        return (sweetalert2__WEBPACK_IMPORTED_MODULE_5___default());
+      },
+      get useToast() {
+        return vue_toast_notification__WEBPACK_IMPORTED_MODULE_6__.useToast;
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -26286,32 +26331,37 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   scope: "col"
 }, "#"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col"
-}, "Nomer Kontrak"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+}, "Kode Nota"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col"
-}, "Salesman"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+}, "Pelanggan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  scope: "col"
+}, "Area"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col"
 }, "Periode Awal"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col"
 }, "Periode Akhir"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col"
-}, "Total Omset"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  scope: "col"
-}, " Sisa Belum Tercapai "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  scope: "col"
 }, "Target (Rp)"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col"
-}, "Hadiah (%)")])], -1 /* HOISTED */);
+}, "Hadiah (%)"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  scope: "col"
+}, "Action")])], -1 /* HOISTED */);
 var _hoisted_17 = {
   scope: "row"
 };
-var _hoisted_18 = {
+var _hoisted_18 = ["onClick"];
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "bi bi-arrow-repeat me-1 text-primary"
+}, null, -1 /* HOISTED */);
+var _hoisted_20 = [_hoisted_19];
+var _hoisted_21 = {
   key: 1
 };
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   colspan: "9",
   "class": "text-center"
 }, " Tidak ada STB ", -1 /* HOISTED */);
-var _hoisted_20 = [_hoisted_19];
+var _hoisted_23 = [_hoisted_22];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -26332,15 +26382,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.props.masterStb.data, function (stb, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
           key: index
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.from++), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-          href: "/report/stb/".concat(stb.nomer_kontrak)
-        }, {
-          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.nomer_kontrak), 1 /* TEXT */)];
-          }),
-          _: 2 /* DYNAMIC */
-        }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.salesman.nama), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.date_format(stb.periode_awal)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.date_format(stb.periode_akhir)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, " Rp. " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.moneyFormat(stb.detail_stb_sum_omset)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, " Rp. " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.moneyFormat(stb.target_rp - stb.detail_stb_sum_omset)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, " Rp. " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.moneyFormat(stb.target_rp)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.hadiah_persen), 1 /* TEXT */)]);
-      }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_18, [].concat(_hoisted_20)))])])]), $setup.last_page > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Pagination"], {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.from++), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.kodenota), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.nmplg), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.area), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.date_format(stb.awal)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.date_format(stb.akhir)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, " Rp. " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.moneyFormat(stb.kontrak)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stb.hadiah) + " %", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [_ctx.hasAnyPermission(['report.stb.change-status']) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+          key: 0,
+          "class": "btn",
+          onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+            return $setup.update(stb.kodenota, stb.nmplg);
+          }, ["prevent"])
+        }, [].concat(_hoisted_20), 8 /* PROPS */, _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+      }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_21, [].concat(_hoisted_23)))])])]), $setup.last_page > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["Pagination"], {
         key: 0,
         pagination_links: $setup.pagination_links
       }, null, 8 /* PROPS */, ["pagination_links"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])];

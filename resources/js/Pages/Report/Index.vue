@@ -1,12 +1,19 @@
 <script setup>
 import LayoutApp from "../../Layouts/App.vue";
 import Pagination from "../../Components/Pagination.vue";
+import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import Swal from "sweetalert2";
+
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 const props = defineProps({
     masterStb: Object,
 });
+
+const toast = useToast();
 
 const { links, from, to, total, last_page } = props.masterStb;
 
@@ -16,6 +23,31 @@ const pagination_links = ref({
     to: to,
     total: total,
 });
+
+const update = (kode_nota, pelanggan) => {
+    Swal.fire({
+        title: "Apa anda yakin?",
+        text: `Data STB "${pelanggan}" akan ditandai sudah diinput`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const kodeNota = kode_nota.replaceAll("/", "-");
+
+            Inertia.patch(`/report/stb/update/${kodeNota}`);
+            toast.open({
+                message: "STB berhasil diupdate",
+                type: "success",
+                duration: 2000,
+                position: "bottom",
+                dismissible: true,
+            });
+        }
+    });
+};
 </script>
 
 <template>
@@ -47,16 +79,14 @@ const pagination_links = ref({
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nomer Kontrak</th>
-                                            <th scope="col">Salesman</th>
+                                            <th scope="col">Kode Nota</th>
+                                            <th scope="col">Pelanggan</th>
+                                            <th scope="col">Area</th>
                                             <th scope="col">Periode Awal</th>
                                             <th scope="col">Periode Akhir</th>
-                                            <th scope="col">Total Omset</th>
-                                            <th scope="col">
-                                                Sisa Belum Tercapai
-                                            </th>
                                             <th scope="col">Target (Rp)</th>
                                             <th scope="col">Hadiah (%)</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -72,53 +102,43 @@ const pagination_links = ref({
                                                     {{ from++ }}
                                                 </th>
                                                 <td>
-                                                    <Link
-                                                        :href="`/report/stb/${stb.nomer_kontrak}`"
+                                                    {{ stb.kodenota }}
+                                                </td>
+                                                <td>{{ stb.nmplg }}</td>
+                                                <td>{{ stb.area }}</td>
+                                                <td>
+                                                    {{ date_format(stb.awal) }}
+                                                </td>
+                                                <td>
+                                                    {{ date_format(stb.akhir) }}
+                                                </td>
+                                                <td>
+                                                    Rp.
+                                                    {{
+                                                        moneyFormat(stb.kontrak)
+                                                    }}
+                                                </td>
+                                                <td>{{ stb.hadiah }} %</td>
+                                                <td>
+                                                    <button
+                                                        class="btn"
+                                                        v-if="
+                                                            hasAnyPermission([
+                                                                'report.stb.change-status',
+                                                            ])
+                                                        "
+                                                        @click.prevent="
+                                                            update(
+                                                                stb.kodenota,
+                                                                stb.nmplg
+                                                            )
+                                                        "
                                                     >
-                                                        {{ stb.nomer_kontrak }}
-                                                    </Link>
+                                                        <i
+                                                            class="bi bi-arrow-repeat me-1 text-primary"
+                                                        ></i>
+                                                    </button>
                                                 </td>
-                                                <td>{{ stb.salesman.nama }}</td>
-                                                <td>
-                                                    {{
-                                                        date_format(
-                                                            stb.periode_awal
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        date_format(
-                                                            stb.periode_akhir
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    Rp.
-                                                    {{
-                                                        moneyFormat(
-                                                            stb.detail_stb_sum_omset
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    Rp.
-                                                    {{
-                                                        moneyFormat(
-                                                            stb.target_rp -
-                                                                stb.detail_stb_sum_omset
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    Rp.
-                                                    {{
-                                                        moneyFormat(
-                                                            stb.target_rp
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>{{ stb.hadiah_persen }}</td>
                                             </tr>
                                         </template>
                                         <tr v-else>

@@ -14,12 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
-Route::post('/stb/sync', [\App\Http\Controllers\Api\StbController::class, 'sync']);
+// Route::post('/stb/sync', [\App\Http\Controllers\Api\StbController::class, 'sync']);
 
 Route::group(['prefix' => '/master'], function() {
     Route::post('/branches', [\App\Http\Controllers\Api\BranchController::class, 'store']);

@@ -91,6 +91,10 @@ Route::group(['middleware' => ['auth']], function(){
             'index' => 'report.stb.index',
             'show' => 'report.stb.detail',
         ]);
+
+        Route::patch('/stb/update/{kode_nota}', \App\Http\Controllers\Admin\Report\ChangestatusController::class)
+        ->middleware('permission:report.stb.change-status')
+        ->name('report.stb.change-status');
     });
 
     Route::group(['prefix' => '/setting'], function() {
