@@ -131,13 +131,13 @@ const props = defineProps({
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nomer Kontrak</th>
-                                            <th scope="col">Periode</th>
-                                            <th scope="col">Total Omset</th>
-                                            <th scope="col">
-                                                Sisa Belum Tercapai
-                                            </th>
+                                            <th scope="col">Kode Nota</th>
+                                            <th scope="col">Pelanggan</th>
+                                            <th scope="col">Area</th>
+                                            <th scope="col">Periode Awal</th>
+                                            <th scope="col">Periode Akhir</th>
                                             <th scope="col">Target (Rp)</th>
+                                            <th scope="col">Hadiah (%)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -151,45 +151,24 @@ const props = defineProps({
                                                 <th scope="row">
                                                     {{ index + 1 }}
                                                 </th>
-                                                <td>{{ stb.nomer_kontrak }}</td>
                                                 <td>
-                                                    {{
-                                                        date_format(
-                                                            stb.periode_awal
-                                                        )
-                                                    }}
-                                                    -
-                                                    {{
-                                                        date_format(
-                                                            stb.periode_akhir
-                                                        )
-                                                    }}
+                                                    {{ stb.kodenota }}
+                                                </td>
+                                                <td>{{ stb.nmplg }}</td>
+                                                <td>{{ stb.area }}</td>
+                                                <td>
+                                                    {{ date_format(stb.awal) }}
+                                                </td>
+                                                <td>
+                                                    {{ date_format(stb.akhir) }}
                                                 </td>
                                                 <td>
                                                     Rp.
                                                     {{
-                                                        moneyFormat(
-                                                            stb.detail_stb_sum_omset
-                                                        )
+                                                        moneyFormat(stb.kontrak)
                                                     }}
                                                 </td>
-                                                <td>
-                                                    Rp.
-                                                    {{
-                                                        moneyFormat(
-                                                            stb.target_rp -
-                                                                stb.detail_stb_sum_omset
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    Rp.
-                                                    {{
-                                                        moneyFormat(
-                                                            stb.target_rp
-                                                        )
-                                                    }}
-                                                </td>
+                                                <td>{{ stb.hadiah }} %</td>
                                             </tr>
                                         </template>
                                         <tr v-else>

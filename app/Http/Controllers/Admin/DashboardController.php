@@ -12,7 +12,7 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\Division;
 use App\Models\Customer;
-use App\Models\MasterStb;
+use App\Models\Stb;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -24,22 +24,33 @@ class DashboardController extends Controller
         // $divisi_count = Division::count();
         // $customer_count = Customer::count();
 
-        $activeStb = MasterStb::withSum('detailStb', 'omset')
-        ->when(Auth::user()->kode_area, function($query){
-            $query->where('kode_area', Auth::user()->kode_area);
+        // $activeStb = MasterStb::withSum('detailStb', 'omset')
+        // ->when(Auth::user()->kode_area, function($query){
+        //     $query->where('kode_area', Auth::user()->kode_area);
+        // })
+        // ->when(Auth::user()->kode_pelanggan, function($query){
+        //     $query->where('kode_pelanggan', Auth::user()->kode_pelanggan);
+        // })->whereDate('periode_awal', '<=', Carbon::now())
+        // ->whereDate('periode_akhir', '>=', Carbon::now())
+        // ->take(5)->orderBy('periode_awal', 'desc')->get();
+
+        $masterStb = Stb::when(Auth::user()->kode_area, function($query){
+            $query->where('area', Auth::user()->kode_area);
         })
         ->when(Auth::user()->kode_pelanggan, function($query){
-            $query->where('kode_pelanggan', Auth::user()->kode_pelanggan);
-        })->whereDate('periode_awal', '<=', Carbon::now())
-        ->whereDate('periode_akhir', '>=', Carbon::now())
-        ->take(5)->orderBy('periode_awal', 'desc')->get();
+            $query->where('kdplg', Auth::user()->kode_pelanggan);
+        })
+        ->whereNotNull('approve3date')
+        ->whereNull('is_insert')
+        ->orderBy('approve3date', 'desc')
+        ->take(5)->get();
 
         return Inertia::render('Dashboard/Index', [
             // 'user_count' => $user_count,
             // 'branch_count' => $branch_count,
             // 'division_count' => $divisi_count,
             // 'customer_count' => $customer_count,
-            'activeStb' => $activeStb,
+            'activeStb' => $masterStb,
         ]);
     }
 }
