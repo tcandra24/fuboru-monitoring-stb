@@ -11,7 +11,7 @@ class Stb extends Model
 
     protected $connection= 'mysql_sync';
     protected $primaryKey = 'kodenota';
-    protected $table = 'stb';
+    protected $table = 'STB';
     protected $keyType = 'string';
 
     public $timestamps = false;
