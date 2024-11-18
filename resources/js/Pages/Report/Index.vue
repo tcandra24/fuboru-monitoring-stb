@@ -75,6 +75,15 @@ const update = (kode_nota, pelanggan) => {
                         <div class="card-body">
                             <h5 class="card-title">Daftar Report STB</h5>
                             <div class="table-responsive">
+                                <div class="d-flex gap-3">
+                                    <a
+                                        href="/report/export/stb"
+                                        class="btn btn-outline-success mb-2"
+                                        target="_blank"
+                                    >
+                                        Export
+                                    </a>
+                                </div>
                                 <table class="table table-hover table-striped">
                                     <thead>
                                         <tr>

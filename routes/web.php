@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth']], function(){
             'show' => 'report.stb.detail',
         ]);
 
+        Route::get('/export/stb', App\Http\Controllers\Admin\Report\ExportController::class)->name('report.stb.export');
+
         Route::patch('/stb/update/{kode_nota}', \App\Http\Controllers\Admin\Report\ChangestatusController::class)
         ->middleware('permission:report.stb.change-status')
         ->name('report.stb.change-status');
