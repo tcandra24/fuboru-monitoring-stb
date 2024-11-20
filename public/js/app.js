@@ -26373,7 +26373,7 @@ var _hoisted_22 = {
   key: 1
 };
 var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  colspan: "9",
+  colspan: "10",
   "class": "text-center"
 }, " Tidak ada STB ", -1 /* HOISTED */);
 var _hoisted_24 = [_hoisted_23];

@@ -153,7 +153,10 @@ const update = (kode_nota, pelanggan) => {
                                             </tr>
                                         </template>
                                         <tr v-else>
-                                            <td colspan="9" class="text-center">
+                                            <td
+                                                colspan="10"
+                                                class="text-center"
+                                            >
                                                 Tidak ada STB
                                             </td>
                                         </tr>
