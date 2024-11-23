@@ -99,7 +99,15 @@ import { Link } from "@inertiajs/inertia-vue3";
                 </ul>
             </li>
 
-            <li class="nav-item" v-if="hasAnyPermission(['report.stb.index'])">
+            <li
+                class="nav-item"
+                v-if="
+                    hasAnyPermission([
+                        'report.stb.index',
+                        'report.banner.index',
+                    ])
+                "
+            >
                 <Link
                     class="nav-link"
                     data-bs-target="#report-nav"
