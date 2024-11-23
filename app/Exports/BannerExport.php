@@ -17,6 +17,7 @@ class BannerExport implements FromView
     public function view(): View
     {
         $masterBanner = Banner::where('KdPlg', '<>' , '')
+            ->orderBy('tglpengajuan', 'desc')
             ->get();
 
         return view('exports.banner', [

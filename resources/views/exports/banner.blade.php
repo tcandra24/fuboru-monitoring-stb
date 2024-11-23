@@ -7,6 +7,7 @@
             <th scope="col">Provinsi</th>
             <th scope="col">Tgl Pengiriman</th>
             <th scope="col">Tgl Pemasangan</th>
+            <th scope="col">Tgl Pengajuan</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
                 <td>{{ $banner->Provinsi }}</td>
                 <td>{{ $banner->tglpengiriman }}</td>
                 <td>{{ $banner->tglpasang }}</td>
+                <td>{{ $banner->tglpengajuan }}</td>
             </tr>
         @endforeach
     </tbody>

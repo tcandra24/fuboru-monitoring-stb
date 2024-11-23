@@ -92,6 +92,7 @@ const update = (kode_pelanggan, pelanggan) => {
                                             <th scope="col">Alamat</th>
                                             <th scope="col">Kota</th>
                                             <th scope="col">Provinsi</th>
+                                            <th scope="col">Tgl Pengajuan</th>
                                             <th scope="col">Keterangan</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -120,6 +121,13 @@ const update = (kode_pelanggan, pelanggan) => {
                                                 <td>
                                                     {{
                                                         ucwords(banner.Provinsi)
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        date_format(
+                                                            banner.tglpengajuan
+                                                        )
                                                     }}
                                                 </td>
                                                 <td>

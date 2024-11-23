@@ -18,6 +18,7 @@ class BannerController extends Controller
             // ->orWhere(function($query){
             //     $query->whereRaw("tglpengiriman < tglpengajuan");
             // })
+            ->orderBy('tglpengajuan', 'desc')
             ->paginate(10);
 
         return Inertia::render('Report/Banner/Index', [
