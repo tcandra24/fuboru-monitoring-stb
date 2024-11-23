@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "../../Layouts/App.vue";
+import LayoutApp from "../../../Layouts/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({

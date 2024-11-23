@@ -10,7 +10,12 @@ import "moment/locale/id";
 import { InertiaProgress } from "@inertiajs/progress";
 
 createInertiaApp({
-    resolve: (name) => require(`./Pages/${name}`),
+    // resolve: (name) => require(`./Pages/${name}`),
+    resolve: (name) => {
+        const context = require.context("./Pages", true, /\.vue$/);
+        const page = context(`./${name}.vue`);
+        return page.default;
+    },
     setup({ el, App, props, plugin }) {
         const application = createApp({ render: () => h(App, props) })
             .mixin({

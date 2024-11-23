@@ -35,7 +35,7 @@ class StbController extends Controller
         ->orderBy('approve3date', 'desc')
         ->paginate(10);
 
-        return Inertia::render('Report/Index', [
+        return Inertia::render('Report/STB/Index', [
             'masterStb' => $masterStb,
         ]);
     }

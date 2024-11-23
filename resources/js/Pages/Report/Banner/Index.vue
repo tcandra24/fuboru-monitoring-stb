@@ -1,6 +1,6 @@
 <script setup>
-import LayoutApp from "../../Layouts/App.vue";
-import Pagination from "../../Components/Pagination.vue";
+import LayoutApp from "../../../Layouts/App.vue";
+import Pagination from "../../../Components/Pagination.vue";
 import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -10,12 +10,12 @@ import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 const props = defineProps({
-    masterStb: Object,
+    masterBanner: Object,
 });
 
 const toast = useToast();
 
-const { links, from, to, total, last_page } = props.masterStb;
+const { links, from, to, total, last_page } = props.masterBanner;
 
 const pagination_links = ref({
     links: links,
@@ -24,10 +24,10 @@ const pagination_links = ref({
     total: total,
 });
 
-const update = (kode_nota, pelanggan) => {
+const update = (kode_pelanggan, pelanggan) => {
     Swal.fire({
         title: "Apa anda yakin?",
-        text: `Data STB "${pelanggan}" akan ditandai sudah diinput`,
+        text: `Data pelanggan "${pelanggan}" tandai menjadi dikirim`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -35,11 +35,11 @@ const update = (kode_nota, pelanggan) => {
         confirmButtonText: "Yes",
     }).then((result) => {
         if (result.isConfirmed) {
-            const kodeNota = kode_nota.replaceAll("/", "-");
+            const kodePelanggan = kode_pelanggan.replaceAll("/", "-");
 
-            Inertia.patch(`/report/stb/update/${kodeNota}`);
+            Inertia.patch(`/report/banner/update/${kodePelanggan}`);
             toast.open({
-                message: "STB berhasil diupdate",
+                message: "Spanduk berhasil diupdate",
                 type: "success",
                 duration: 2000,
                 position: "bottom",
@@ -52,19 +52,19 @@ const update = (kode_nota, pelanggan) => {
 
 <template>
     <Head>
-        <title>Report STB - Monitoring STB</title>
+        <title>Report Spanduk - Monitoring STB</title>
     </Head>
 
     <LayoutApp>
         <div class="pagetitle">
-            <h1>Report STB</h1>
+            <h1>Report Spanduk</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <Link href="/">Home</Link>
                     </li>
                     <li class="breadcrumb-item">Report</li>
-                    <li class="breadcrumb-item active">STB</li>
+                    <li class="breadcrumb-item active">Spanduk</li>
                 </ol>
             </nav>
         </div>
@@ -73,11 +73,11 @@ const update = (kode_nota, pelanggan) => {
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Daftar Report STB</h5>
+                            <h5 class="card-title">Daftar Report Spanduk</h5>
                             <div class="table-responsive">
                                 <div class="d-flex gap-3">
                                     <a
-                                        href="/report/export/stb"
+                                        href="/report/export/banner"
                                         class="btn btn-outline-success mb-2"
                                         target="_blank"
                                     >
@@ -88,60 +88,67 @@ const update = (kode_nota, pelanggan) => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Kode Nota</th>
-                                            <th scope="col">Kode Pelanggan</th>
                                             <th scope="col">Pelanggan</th>
-                                            <th scope="col">Periode Awal</th>
-                                            <th scope="col">Periode Akhir</th>
-                                            <th scope="col">Target (Rp)</th>
-                                            <th scope="col">Hadiah (%)</th>
-                                            <th scope="col">Jenis</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Kota</th>
+                                            <th scope="col">Provinsi</th>
+                                            <th scope="col">Keterangan</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <template
-                                            v-if="masterStb.data.length > 0"
+                                            v-if="masterBanner.data.length > 0"
                                         >
                                             <tr
-                                                v-for="(stb, index) in props
-                                                    .masterStb.data"
+                                                v-for="(banner, index) in props
+                                                    .masterBanner.data"
                                                 :key="index"
                                             >
                                                 <th scope="row">
                                                     {{ from++ }}
                                                 </th>
                                                 <td>
-                                                    {{ stb.kodenota }}
-                                                </td>
-                                                <td>{{ stb.kdplg }}</td>
-                                                <td>{{ stb.nmplg }}</td>
-                                                <td>
-                                                    {{ date_format(stb.awal) }}
+                                                    {{ ucwords(banner.Nama) }}
                                                 </td>
                                                 <td>
-                                                    {{ date_format(stb.akhir) }}
+                                                    {{ ucwords(banner.Alamat) }}
                                                 </td>
                                                 <td>
-                                                    Rp.
+                                                    {{ ucwords(banner.Kota) }}
+                                                </td>
+                                                <td>
                                                     {{
-                                                        moneyFormat(stb.kontrak)
+                                                        ucwords(banner.Provinsi)
                                                     }}
                                                 </td>
-                                                <td>{{ stb.hadiah }} %</td>
-                                                <td>{{ stb.jenis }}</td>
+                                                <td>
+                                                    <span class="h6">
+                                                        Tgl Kirim:
+                                                        {{
+                                                            banner.tglpengiriman
+                                                        }}
+                                                    </span>
+                                                    <br />
+                                                    <span class="h6">
+                                                        Tgl Pasang:
+                                                        {{ banner.tglpasang }}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <button
                                                         class="btn"
                                                         v-if="
                                                             hasAnyPermission([
-                                                                'report.stb.change-status',
-                                                            ])
+                                                                'report.banner.change-status',
+                                                            ]) &&
+                                                            +banner.ispengajuan ===
+                                                                1
                                                         "
                                                         @click.prevent="
                                                             update(
-                                                                stb.kodenota,
-                                                                stb.nmplg
+                                                                banner.KdPlg,
+                                                                banner.Nama
                                                             )
                                                         "
                                                     >
@@ -157,7 +164,7 @@ const update = (kode_nota, pelanggan) => {
                                                 colspan="10"
                                                 class="text-center"
                                             >
-                                                Tidak ada STB
+                                                Tidak ada Pengajuan Spanduk
                                             </td>
                                         </tr>
                                     </tbody>

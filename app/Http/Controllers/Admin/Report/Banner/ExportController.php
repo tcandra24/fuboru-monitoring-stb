@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Report;
+namespace App\Http\Controllers\Admin\Report\Banner;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\StbExport;
+use App\Exports\BannerExport;
 
 class ExportController extends Controller
 {
@@ -17,6 +17,6 @@ class ExportController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Excel::download(new StbExport, 'stb-export.xlsx');
+        return Excel::download(new BannerExport, 'spanduk-export.xlsx');
     }
 }

@@ -92,11 +92,22 @@ Route::group(['middleware' => ['auth']], function(){
             'show' => 'report.stb.detail',
         ]);
 
-        Route::get('/export/stb', App\Http\Controllers\Admin\Report\ExportController::class)->name('report.stb.export');
+        Route::resource('/banner', App\Http\Controllers\Admin\Report\BannerController::class, [ 'only' => ['index'], 'parameters' => [
+            'banner' => 'kode_pelanggan'
+        ] ])->middleware('permission:report.banner.index')->names([
+            'index' => 'report.banner.index',
+        ]);
 
-        Route::patch('/stb/update/{kode_nota}', \App\Http\Controllers\Admin\Report\ChangestatusController::class)
+        Route::get('/export/stb', App\Http\Controllers\Admin\Report\STB\ExportController::class)->name('report.stb.export');
+        Route::get('/export/banner', App\Http\Controllers\Admin\Report\Banner\ExportController::class)->name('report.banner.export');
+
+        Route::patch('/stb/update/{kode_nota}', \App\Http\Controllers\Admin\Report\STB\ChangeStatusController::class)
         ->middleware('permission:report.stb.change-status')
         ->name('report.stb.change-status');
+
+        Route::patch('/banner/update/{kode_pelanggan}', \App\Http\Controllers\Admin\Report\Banner\ChangeStatusController::class)
+        ->middleware('permission:report.banner.change-status')
+        ->name('report.banner.change-status');
     });
 
     Route::group(['prefix' => '/setting'], function() {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Report;
+namespace App\Http\Controllers\Admin\Report\STB;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stb;
 use Illuminate\Http\Request;
 
-class ChangestatusController extends Controller
+class ChangeStatusController extends Controller
 {
     /**
      * Handle the incoming request.

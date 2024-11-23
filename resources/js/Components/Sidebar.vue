@@ -131,6 +131,18 @@ import { Link } from "@inertiajs/inertia-vue3";
                             <i class="bi bi-circle"></i><span>STB</span>
                         </Link>
                     </li>
+                    <li v-if="hasAnyPermission(['report.banner.index'])">
+                        <Link
+                            href="/report/banner"
+                            :class="[
+                                $page.url.startsWith('/report/banner')
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
+                            <i class="bi bi-circle"></i><span>Spanduk</span>
+                        </Link>
+                    </li>
                 </ul>
             </li>
 
