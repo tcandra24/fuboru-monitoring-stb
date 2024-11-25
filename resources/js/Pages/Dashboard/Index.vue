@@ -8,6 +8,7 @@ const props = defineProps({
     // division_count: Number,
     // customer_count: Number,
     activeStb: Object,
+    activeBanner: Object,
 });
 </script>
 
@@ -122,7 +123,10 @@ const props = defineProps({
                         </div>
                     </div>
                 </div> -->
-                <div class="col-lg-12">
+                <div
+                    class="col-lg-12"
+                    v-if="hasAnyPermission(['report.stb.index'])"
+                >
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">STB Aktif</h5>
@@ -146,7 +150,7 @@ const props = defineProps({
                                             <tr
                                                 v-for="(
                                                     stb, index
-                                                ) in activeStb"
+                                                ) of activeStb"
                                                 :key="index"
                                             >
                                                 <th scope="row">
@@ -174,8 +178,8 @@ const props = defineProps({
                                             </tr>
                                         </template>
                                         <tr v-else>
-                                            <td colspan="6" class="text-center">
-                                                Tidak ada aktif STB
+                                            <td colspan="9" class="text-center">
+                                                Tidak ada STB aktif
                                             </td>
                                         </tr>
                                     </tbody>
@@ -187,6 +191,81 @@ const props = defineProps({
                             >
                                 <Link href="/report/stb">
                                     Tampilkan semua
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="col-lg-12"
+                    v-if="hasAnyPermission(['report.banner.index'])"
+                >
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Pengajuan Spanduk Aktif</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Pelanggan</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Kota</th>
+                                            <th scope="col">Provinsi</th>
+                                            <th scope="col">Tgl Pengajuan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template
+                                            v-if="activeBanner.length > 0"
+                                        >
+                                            <tr
+                                                v-for="(
+                                                    banner, index
+                                                ) of activeBanner"
+                                                :key="index"
+                                            >
+                                                <th scope="row">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td>
+                                                    {{ ucwords(banner.Nama) }}
+                                                </td>
+                                                <td>
+                                                    {{ ucwords(banner.Alamat) }}
+                                                </td>
+                                                <td>
+                                                    {{ ucwords(banner.Kota) }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        ucwords(banner.Provinsi)
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                        date_format(
+                                                            banner.tglpengajuan
+                                                        )
+                                                    }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-else>
+                                            <td colspan="7" class="text-center">
+                                                Tidak ada Pengajuan Spanduk
+                                                Aktif
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div
+                                class="d-grid gap-2 mt-3 justify-content-center"
+                            >
+                                <Link href="/report/banner">
+                                    Tampilkan semua Spanduk
                                 </Link>
                             </div>
                         </div>

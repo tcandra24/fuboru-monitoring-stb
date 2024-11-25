@@ -2,7 +2,7 @@
 import LayoutApp from "../../../Layouts/App.vue";
 import Pagination from "../../../Components/Pagination.vue";
 import { Inertia } from "@inertiajs/inertia";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import Swal from "sweetalert2";
 
@@ -11,17 +11,25 @@ import "vue-toast-notification/dist/theme-sugar.css";
 
 const props = defineProps({
     masterBanner: Object,
+    cities: Object,
+    request: Object,
 });
 
 const toast = useToast();
 
-const { links, from, to, total, last_page } = props.masterBanner;
+const { links, from, to, total, last_page, current_page, per_page } =
+    props.masterBanner;
 
 const pagination_links = ref({
     links: links,
     from: from,
     to: to,
     total: total,
+});
+
+const search = reactive({
+    customerName: props.request.customerName ?? "",
+    city: props.request.city ?? "",
 });
 
 const update = (kode_pelanggan, pelanggan) => {
@@ -47,6 +55,18 @@ const update = (kode_pelanggan, pelanggan) => {
             });
         }
     });
+};
+
+const submit = () => {
+    Inertia.get("/report/banner", {
+        customerName: search.customerName,
+        city: search.city,
+    });
+};
+
+const reset = () => {
+    search.customerName = "";
+    search.city = "";
 };
 </script>
 
@@ -74,10 +94,64 @@ const update = (kode_pelanggan, pelanggan) => {
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Daftar Report Spanduk</h5>
+
+                            <form class="row g-3 mb-3" @submit.prevent="submit">
+                                <div class="col-lg-3 col-md-6 col-12">
+                                    <label
+                                        for="form-element-nama"
+                                        class="form-label"
+                                        >Pelanggan</label
+                                    >
+                                    <input
+                                        type="text"
+                                        v-model="search.customerName"
+                                        class="form-control"
+                                    />
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 col-12">
+                                    <label
+                                        for="form-element-nama"
+                                        class="form-label"
+                                        >Kota</label
+                                    >
+                                    <select
+                                        v-model="search.city"
+                                        class="form-control"
+                                    >
+                                        <option value="">Pilih Kota</option>
+                                        <option
+                                            v-for="(city, index) of cities"
+                                            :key="index"
+                                            :value="city.city"
+                                        >
+                                            {{ city.city }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 d-flex" style="gap: 10px">
+                                    <button
+                                        class="btn btn-outline-primary"
+                                        type="submit"
+                                    >
+                                        Cari
+                                    </button>
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        @click="reset"
+                                    >
+                                        Reset
+                                    </button>
+                                </div>
+                            </form>
+                            <hr />
                             <div class="table-responsive">
                                 <div class="d-flex gap-3">
                                     <a
-                                        href="/report/export/banner"
+                                        :href="`/report/export/banner?customerName=${
+                                            request.customerName ?? ''
+                                        }&city=${request.city ?? ''}`"
                                         class="btn btn-outline-success mb-2"
                                         target="_blank"
                                     >
@@ -107,7 +181,12 @@ const update = (kode_pelanggan, pelanggan) => {
                                                 :key="index"
                                             >
                                                 <th scope="row">
-                                                    {{ from++ }}
+                                                    {{
+                                                        (current_page - 1) *
+                                                            per_page +
+                                                        index +
+                                                        1
+                                                    }}
                                                 </th>
                                                 <td>
                                                     {{ ucwords(banner.Nama) }}

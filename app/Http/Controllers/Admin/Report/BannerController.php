@@ -18,11 +18,23 @@ class BannerController extends Controller
             // ->orWhere(function($query){
             //     $query->whereRaw("tglpengiriman < tglpengajuan");
             // })
+            ->when(request()->customerName, function($query){
+                $query->where('Nama', 'LIKE', '%' . request()->customerName . '%');
+            })
+            ->when(request()->city, function($query){
+                $query->where('Kota', request()->city);
+            })
+            // ->when(request()->submissionDate, function($query){
+            //     $query->whereDate('tglpengajuan', '<=', request()->dateEnd);
+            // })
             ->orderBy('tglpengajuan', 'desc')
-            ->paginate(10);
+            ->paginate(10)->withQueryString();
+
+        $cities = Banner::distinct()->selectRaw('Kota as city')->where('KdPlg', '<>' , '')->orderBy('Kota')->get();
 
         return Inertia::render('Report/Banner/Index', [
             'masterBanner' => $masterBanner,
+            'cities' => $cities
         ]);
     }
 }

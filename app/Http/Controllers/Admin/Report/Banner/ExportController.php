@@ -17,6 +17,11 @@ class ExportController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Excel::download(new BannerExport, 'spanduk-export.xlsx');
+        $data = [
+            'customerName' => $request->customerName,
+            'city' => $request->city,
+        ];
+
+        return Excel::download(new BannerExport($data), 'spanduk-export.xlsx');
     }
 }

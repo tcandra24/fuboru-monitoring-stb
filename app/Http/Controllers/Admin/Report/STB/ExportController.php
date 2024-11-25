@@ -17,6 +17,13 @@ class ExportController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Excel::download(new StbExport, 'stb-export.xlsx');
+        $data = [
+            'customerName' => $request->customerName,
+            'dateStart' => $request->dateStart,
+            'dateEnd' => $request->dateEnd,
+            'isInsert' => $request->isInsert,
+        ];
+
+        return Excel::download(new StbExport($data), 'stb-export.xlsx');
     }
 }

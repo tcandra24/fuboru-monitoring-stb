@@ -9,6 +9,14 @@ use App\Models\Banner;
 
 class BannerExport implements FromView
 {
+    public $customerName;
+    public $city;
+
+    public function __construct($data) {
+        $this->customerName = $data['customerName'];
+        $this->city = $data['city'];
+    }
+
     /**
      * view
      *
@@ -17,6 +25,12 @@ class BannerExport implements FromView
     public function view(): View
     {
         $masterBanner = Banner::where('KdPlg', '<>' , '')
+            ->when($this->customerName, function($query){
+                $query->where('Nama', 'LIKE', '%' . $this->customerName . '%');
+            })
+            ->when($this->city, function($query){
+                $query->where('Kota', $this->city);
+            })
             ->orderBy('tglpengajuan', 'desc')
             ->get();
 

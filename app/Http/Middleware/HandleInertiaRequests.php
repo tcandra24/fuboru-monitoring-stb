@@ -54,6 +54,8 @@ class HandleInertiaRequests extends Middleware
                     'query' => $request->all(),
                 ];
             },
+            // request
+            'request' => request()
         ]);
     }
 }
