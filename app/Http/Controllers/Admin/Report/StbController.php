@@ -47,6 +47,7 @@ class StbController extends Controller
         //     $query->where('kdplg', Auth::user()->kode_pelanggan);
         // })
         ->whereNotNull('approve3date')
+        ->where('approvelevel', 4)
         ->orderBy('approve3date', 'desc')
         ->paginate(10)->withQueryString();
 
