@@ -53,6 +53,7 @@ class StbExport implements FromView
         //     $query->where('kdplg', Auth::user()->kode_pelanggan);
         // })
         ->whereNotNull('approve3date')
+        ->where('approvelevel', 4)
         // ->whereNull('is_insert')
         ->orderBy('approve3date', 'desc')->get();
 
